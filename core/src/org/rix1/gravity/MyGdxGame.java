@@ -1,5 +1,6 @@
 package org.rix1.gravity;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.ApplicationAdapter;
@@ -25,7 +26,6 @@ public class MyGdxGame extends ApplicationAdapter {
     boolean playMusic = false;
 
     int start = 4;
-    int stop = 0;
     final int threshold = 5;
 
     float delta = 0;
@@ -59,14 +59,21 @@ public class MyGdxGame extends ApplicationAdapter {
         staticEntities.add(new StaticEntity(this, 200, 200, 20, 20, new Texture(Gdx.files.internal("enemy.png"))));
         staticEntities.add(new StaticEntity(this, 180, 50, 20, 20, new Texture(Gdx.files.internal("enemy.png"))));
 
-        if(playMusic)
-            startMusic();
+        startMusic();
     }
 
     public void startMusic(){
-        music = Gdx.audio.newMusic(Gdx.files.internal("whatsGolden.mp3"));
-        music.setVolume(0.3f);
-        music.play();
+        try {
+            music = Gdx.audio.newMusic(Gdx.files.internal("whatsGolden.mp3"));
+            playMusic = true;
+        } catch (RuntimeException e) {
+            System.out.println("Error when trying to read music file:\n\tFile not found. You have to download it form Rikard. lol that makes no sense, but he was too lazy to put it on Github.");;
+            playMusic = false;
+        }
+        if(playMusic){
+            music.setVolume(0.3f);
+            music.play();
+        }
     }
 
 
@@ -204,7 +211,7 @@ public class MyGdxGame extends ApplicationAdapter {
         if(player.isMoving() && playMusic){
             music.setVolume(0.6f);
         }else if(playMusic)
-        music.setVolume(0.4f);
+            music.setVolume(0.4f);
 
         switch (d){
             case U:
