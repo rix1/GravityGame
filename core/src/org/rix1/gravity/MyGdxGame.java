@@ -1,6 +1,5 @@
 package org.rix1.gravity;
 
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.ApplicationAdapter;
@@ -8,9 +7,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.utils.Array;
 
 public class MyGdxGame extends ApplicationAdapter {
     SpriteBatch batch;
@@ -26,7 +23,7 @@ public class MyGdxGame extends ApplicationAdapter {
     boolean playMusic = false;
 
     int start = 4;
-    final int threshold = 5;
+    final int threshold = 4;
 
     float delta = 0;
     int posCounter = 0;
@@ -59,7 +56,8 @@ public class MyGdxGame extends ApplicationAdapter {
         staticEntities.add(new StaticEntity(this, 200, 200, 20, 20, new Texture(Gdx.files.internal("enemy.png"))));
         staticEntities.add(new StaticEntity(this, 180, 50, 20, 20, new Texture(Gdx.files.internal("enemy.png"))));
 
-//        startMusic();
+        // This starts the music yo.
+        startMusic();
     }
 
     public void startMusic(){
@@ -192,71 +190,14 @@ public class MyGdxGame extends ApplicationAdapter {
     }
 
     public void drawPlayer(){
-        Direction d = player.getCurrentDir();
-        Array<Sprite> sprites = player.getSprites();
-
-        if(tick%threshold == 0){
-            posCounter++;
-            negCounter--;
-
-            if(posCounter >= sprites.size){
-                posCounter = start;
-            }
-
-            if(negCounter <= start){
-                negCounter = sprites.size-1;
-            }
-        }
+        if(tick%threshold == 0)
+            player.getNextSprite().draw(batch);
+        else player.getCurrentSprite().draw(batch);
 
         if(player.isMoving() && playMusic){
             music.setVolume(0.8f);
         }else if(playMusic)
             music.setVolume(0.4f);
-
-        switch (d){
-            case U:
-                if(player.isMoving()){
-                    sprites.get(1).setPosition(player.x, player.y);
-                    sprites.get(1).draw(batch);
-                }else{
-                    sprites.get(1).setPosition(player.x, player.y);
-                    sprites.get(1).draw(batch);
-                }
-                break;
-            case D:
-                if(player.isMoving()){
-                    sprites.get(0).setPosition(player.x, player.y);
-                    sprites.get(0).draw(batch);
-                }else{
-                    sprites.get(0).setPosition(player.x, player.y);
-                    sprites.get(0).draw(batch);
-                }
-                break;
-            case L:
-                if(player.isMoving()){
-                    sprites.get(negCounter).setPosition(player.x, player.y);
-                    sprites.get(negCounter).draw(batch);
-                }else{
-                    negCounter = sprites.size-1;
-                    sprites.get(0).setPosition(player.x, player.y);
-                    sprites.get(0).draw(batch);
-                }
-                break;
-            case R:
-                if(player.isMoving()){
-                    sprites.get(posCounter).setPosition(player.x, player.y);
-                    sprites.get(posCounter).draw(batch);
-                }else{
-                    posCounter = 0;
-                    // 1 sprite is the
-                    sprites.get(0).setPosition(player.x, player.y);
-                    sprites.get(0).draw(batch);
-                }
-                break;
-            default:
-                // set start stop for up
-                break;
-        }
     }
 
     public void drawMap(){
