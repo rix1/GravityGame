@@ -1,0 +1,123 @@
+spriteShit.png
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+walkRightGravity-01-1.svg
+  rotate: false
+  xy: 364, 257
+  size: 167, 255
+  orig: 167, 255
+  offset: 0, 0
+  index: -1
+walkRightGravity-01-2.svg
+  rotate: false
+  xy: 195, 257
+  size: 167, 255
+  orig: 167, 255
+  offset: 0, 0
+  index: -1
+walkRightGravity-01-3.svg
+  rotate: false
+  xy: 533, 257
+  size: 158, 257
+  orig: 158, 257
+  offset: 0, 0
+  index: -1
+walkRightGravity-01-4.svg
+  rotate: false
+  xy: 693, 257
+  size: 158, 257
+  orig: 189, 258
+  offset: 0, 0
+  index: -1
+walkRightGravity-03.svg
+  rotate: false
+  xy: 2, 257
+  size: 191, 254
+  orig: 191, 254
+  offset: 0, 0
+  index: -1
+walkRightGravity-04.svg
+  rotate: false
+  xy: 2, 2
+  size: 214, 238
+  orig: 214, 238
+  offset: 0, 0
+  index: -1
+walkRightGravity-05.svg
+  rotate: false
+  xy: 1037, 257
+  size: 175, 266
+  orig: 175, 266
+  offset: 0, 0
+  index: -1
+walkRightGravity-06.svg
+  rotate: false
+  xy: 1167, 2
+  size: 176, 253
+  orig: 176, 253
+  offset: 0, 0
+  index: -1
+walkRightGravity-07.svg
+  rotate: false
+  xy: 594, 2
+  size: 176, 249
+  orig: 176, 249
+  offset: 0, 0
+  index: -1
+walkRightGravity-08.svg
+  rotate: false
+  xy: 1391, 257
+  size: 182, 266
+  orig: 182, 266
+  offset: 0, 0
+  index: -1
+walkRightGravity-09.svg
+  rotate: false
+  xy: 218, 2
+  size: 196, 249
+  orig: 196, 249
+  offset: 0, 0
+  index: -1
+walkRightGravity-10.svg
+  rotate: false
+  xy: 970, 2
+  size: 195, 251
+  orig: 195, 251
+  offset: 0, 0
+  index: -1
+walkRightGravity-11.svg
+  rotate: false
+  xy: 1214, 257
+  size: 175, 266
+  orig: 175, 266
+  offset: 0, 0
+  index: -1
+walkRightGravity-12.svg
+  rotate: false
+  xy: 1345, 2
+  size: 176, 253
+  orig: 176, 253
+  offset: 0, 0
+  index: -1
+walkRightGravity-13.svg
+  rotate: false
+  xy: 416, 2
+  size: 176, 249
+  orig: 176, 249
+  offset: 0, 0
+  index: -1
+walkRightGravity-14.svg
+  rotate: false
+  xy: 853, 257
+  size: 182, 266
+  orig: 182, 266
+  offset: 0, 0
+  index: -1
+walkRightGravity-15.svg
+  rotate: false
+  xy: 772, 2
+  size: 196, 249
+  orig: 196, 249
+  offset: 0, 0
+  index: -1
