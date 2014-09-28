@@ -2,7 +2,7 @@
 # at 2014-09-28 19:56:24
 
 ### Custom files ###
-# *.mp3
+*.mp3
 
 ### Java ###
 *.class

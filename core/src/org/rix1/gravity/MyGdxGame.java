@@ -59,7 +59,7 @@ public class MyGdxGame extends ApplicationAdapter {
         staticEntities.add(new StaticEntity(this, 200, 200, 20, 20, new Texture(Gdx.files.internal("enemy.png"))));
         staticEntities.add(new StaticEntity(this, 180, 50, 20, 20, new Texture(Gdx.files.internal("enemy.png"))));
 
-        startMusic();
+//        startMusic();
     }
 
     public void startMusic(){
@@ -209,7 +209,7 @@ public class MyGdxGame extends ApplicationAdapter {
         }
 
         if(player.isMoving() && playMusic){
-            music.setVolume(0.6f);
+            music.setVolume(0.8f);
         }else if(playMusic)
             music.setVolume(0.4f);
 
