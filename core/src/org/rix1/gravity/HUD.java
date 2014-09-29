@@ -13,9 +13,9 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 public class HUD {
 
     private BitmapFont font;
-    private MyGdxGame game;
+    private GameClass game;
 
-    public HUD(MyGdxGame game){
+    public HUD(GameClass game){
         this.game = game;
         generateBitmapFont();
     }
@@ -38,7 +38,7 @@ public class HUD {
 
 
     public void drawLabels(String score){
-        font.draw(game.batch, " Score: " + score, 350,300);
+        font.draw(game.batch, " SCORE: " + score, 350,300);
     }
 
 

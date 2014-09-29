@@ -1,7 +1,7 @@
 package org.rix1.gravity.Entites;
 
 import com.badlogic.gdx.graphics.Texture;
-import org.rix1.gravity.MyGdxGame;
+import org.rix1.gravity.GameClass;
 import org.rix1.gravity.Utils.Direction;
 
 /**
@@ -12,7 +12,7 @@ import org.rix1.gravity.Utils.Direction;
 
 public class Goal extends StaticEntity {
 
-    public Goal(MyGdxGame game, float x, float y, int width, int height, Texture texture) {
+    public Goal(GameClass game, float x, float y, int width, int height, Texture texture) {
         super(game, x, y, width, height, texture);
         isPickupable = true;
     }

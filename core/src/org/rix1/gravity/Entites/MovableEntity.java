@@ -1,6 +1,6 @@
 package org.rix1.gravity.Entites;
 
-import org.rix1.gravity.MyGdxGame;
+import org.rix1.gravity.GameClass;
 import org.rix1.gravity.Utils.Direction;
 
 /**
@@ -16,7 +16,7 @@ public class MovableEntity extends Entity {
 
 
 
-    public MovableEntity(MyGdxGame game, float x, float y, int width, int height, float speed) {
+    public MovableEntity(GameClass game, float x, float y, int width, int height, float speed) {
         super(game, x, y, width, height);
         this.speed = speed;
         currentDir = Direction.L; // Default direction

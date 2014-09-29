@@ -1,4 +1,4 @@
-spriteShit.png
+playerWalk.png
 format: RGBA8888
 filter: Linear,Linear
 repeat: none

@@ -1,10 +1,10 @@
 package org.rix1.gravity.Entites;
 
-import org.rix1.gravity.MyGdxGame;
+import org.rix1.gravity.GameClass;
 import org.rix1.gravity.Utils.Direction;
 
 public abstract class Entity {
-    protected MyGdxGame game;
+    protected GameClass game;
     protected float x;
     protected float y;
     protected float dx;
@@ -14,7 +14,7 @@ public abstract class Entity {
     protected boolean inBackground;
     protected boolean isVisible;
 
-    public Entity(MyGdxGame game, float x, float y, int width, int height) {
+    public Entity(GameClass game, float x, float y, int width, int height) {
         this.game = game;
         this.x = x;
         this.y = y;

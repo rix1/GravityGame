@@ -7,12 +7,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import org.rix1.gravity.Entites.*;
 import org.rix1.gravity.Utils.Axis;
 import org.rix1.gravity.Utils.Direction;
 
-public class MyGdxGame extends ApplicationAdapter {
+public class GameClass extends ApplicationAdapter {
     SpriteBatch batch;
     int screenWidth;
     int screenHeight;
@@ -60,7 +61,7 @@ public class MyGdxGame extends ApplicationAdapter {
         map = new GameMap(mapHeight, mapWidth);
 
         // add some staticEntities including a player
-        player = new Player(this, map.getStart()[0]*tileSize, map.getStart()[1]*tileSize, 20, 20, 120.0f, "spriteShit.txt");
+        player = new Player(this, map.getStart()[0]*tileSize, map.getStart()[1]*tileSize, 20, 20, 120.0f);
         movableEntities.add(player);
 
         // Static staticEntities
@@ -126,7 +127,6 @@ public class MyGdxGame extends ApplicationAdapter {
             if(newX - e.getX() < 0) direction = Direction.L;
             else direction = Direction.R;
         }
-
         if(!tileCollision(e, direction, newX, newY) && !entityCollision(e, direction, newX, newY)) {
             // full move with no collision
             e.move(newX, newY);
@@ -221,18 +221,23 @@ public class MyGdxGame extends ApplicationAdapter {
     }
 
     public void drawPlayer(){
-        if(!DEBUG_MODE) {
-            if(tick%threshold == 0)
-                player.getNextSprite().draw(batch);
-            else player.getCurrentSprite().draw(batch);
-        }else {
-            batch.draw(new Texture(Gdx.files.internal("player.png")), player.getX(), player.getY());
+        Sprite playerSprite;
+        if(tick%threshold == 0) {
+            playerSprite = player.getNextSprite();
         }
+        else playerSprite = player.getCurrentSprite();
+        playerSprite.setBounds(player.getX(),player.getY(),100f,150f);
+        playerSprite.draw(batch);
+    }
+
+
+        /* Variable music volume was a bad idea..
         if(player.isMoving() && playMusic){
             music.setVolume(0.8f);
         }else if(playMusic)
             music.setVolume(0.4f);
-    }
+            }
+        */
 
     public void drawMap(){
         for (int y = 0; y < mapHeight; y++) {
