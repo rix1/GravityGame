@@ -21,7 +21,7 @@ The game offers the following features:
 	- Next version will include more animations (jump maybe???)
 - Different blocks! (some can be picked up, while other are solid). In the future, generating new blocks will even be super easy thanks to object orientation! WO!
 	- In the next version some will even chase you!
-- Background music
+- Background music: To save the precious internet for traffic, this is not included on Github. If you want it tho, simply add a any music file called "music.mp3" to `Gravity/core/assets/` and you can have plenty of fun digging to your music.
 
 ### AI
 

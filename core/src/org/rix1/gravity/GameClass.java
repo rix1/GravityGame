@@ -96,7 +96,7 @@ public class GameClass extends ApplicationAdapter {
 
     public void startMusic(){
         try {
-            music = Gdx.audio.newMusic(Gdx.files.internal("whatsGolden.mp3"));
+            music = Gdx.audio.newMusic(Gdx.files.internal("music.mp3"));
             playMusic = true;
         } catch (RuntimeException e) {
             System.out.println("Error when trying to read music file:\n\tFile not found. You have to download it form Rikard. lol that makes no sense, but he was too lazy to put it on Github.");;
