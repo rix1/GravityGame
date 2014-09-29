@@ -4,6 +4,7 @@ This game is really simple:
 
 1. You and your avatar have to find the exit (Spoiler alert: marked with pink) while digging to the music.
 2. Dig some more to the music and watch your score increase!
+3. Watch out for the enemy! He's more of a stalker than a enemy because he wont hurt you, but hey - who likes stalkers? 
 
 *(Hint: Exists a removable tile that gives you even more points!)*
  
@@ -32,4 +33,4 @@ The game offers the following features:
 
 ### AI
 
-There is no AI in this version, as I understood this would be the main focus for the next assignment. Stay tuned!
+There is little AI, but some stupid green stalker is following you.
