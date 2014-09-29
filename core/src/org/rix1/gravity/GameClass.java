@@ -28,7 +28,7 @@ public class GameClass extends ApplicationAdapter {
     private HUD headsUpDisplay;
 
     private boolean restart = false;
-    private boolean DEBUG_MODE = true;
+    private boolean DEBUG_MODE = false;
 
     private int threshold = 4;
 
