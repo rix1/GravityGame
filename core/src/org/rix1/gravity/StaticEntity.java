@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.Texture;
 public class StaticEntity extends Entity {
 
     private Texture texture;
+    protected boolean isPickupable;
 
     public StaticEntity(MyGdxGame game, float x, float y, int width, int height, Texture texture) {
         super(game, x, y, width, height);
@@ -19,5 +20,15 @@ public class StaticEntity extends Entity {
 
     public Texture getTexture() {
         return texture;
+    }
+
+    @Override
+    public void update(float delta) {
+
+    }
+
+    @Override
+    public void entityCollision(Entity e2, float newX, float newY, MyGdxGame.Direction direction) {
+
     }
 }

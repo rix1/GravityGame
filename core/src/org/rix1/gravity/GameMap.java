@@ -25,6 +25,7 @@ public class GameMap {
         tileTexture = new Texture("block.png");
         startStopTexture = new Texture("startend.png");
 
+        // It should be the map's responsibility to hold start/goal positions
         start = new float[]{1,1};
         end = new float[]{width-2,1}; // Minus two because
     }

@@ -40,8 +40,15 @@ public class MovableEntity extends Entity {
         }else isMoving = false;
     }
 
+
     @Override
     public void update(float delta) {
+
     }
 
+    @Override
+    public void entityCollision(Entity e2, float newX, float newY, MyGdxGame.Direction direction) {
+        System.out.println("Player collision around: " + newX + " " + newY);
+
+    }
 }

@@ -18,15 +18,16 @@ public class MyGdxGame extends ApplicationAdapter {
     int tileSize = 20;
     GameMap map;
     Player player;
+    private HUD headsUpDisplay;
+
+    private boolean restart = false;
+    private boolean DEBUG_MODE = true;
+
+    private int threshold = 4;
 
     boolean playMusic = false;
 
-    int start = 4;
-    final int threshold = 4;
-
     float delta = 0;
-    int posCounter = 0;
-    int negCounter = 0;
     long tick = 0;
     Music music;
 
@@ -50,12 +51,20 @@ public class MyGdxGame extends ApplicationAdapter {
         movableEntities.add(player);
 
         // Static staticEntities
-        staticEntities.add(new StaticEntity(this, 50, 150, 20, 20, new Texture(Gdx.files.internal("enemy.png"))));
-        staticEntities.add(new StaticEntity(this, 200, 200, 20, 20, new Texture(Gdx.files.internal("enemy.png"))));
-        staticEntities.add(new StaticEntity(this, 180, 50, 20, 20, new Texture(Gdx.files.internal("enemy.png"))));
+        staticEntities.add(new StaticEntity(this, 50, 150, tileSize, tileSize, new Texture(Gdx.files.internal("enemy.png"))));
+        staticEntities.add(new StaticEntity(this, 200, 200, tileSize, tileSize, new Texture(Gdx.files.internal("enemy.png"))));
+        staticEntities.add(new StaticEntity(this, 180, 50, tileSize, tileSize, new Texture(Gdx.files.internal("enemy.png"))));
+
+        // Goal
+        staticEntities.add(new Goal(this, map.getEnd()[0]*tileSize, map.getEnd()[1]*tileSize, tileSize, tileSize, map.getSSTexture()));
+
+        // HUD
+        headsUpDisplay = new HUD(this);
 
         // This starts the music yo.
-//        startMusic();
+        if(!DEBUG_MODE) {
+            startMusic();
+        }
     }
 
     public void startMusic(){
@@ -73,6 +82,10 @@ public class MyGdxGame extends ApplicationAdapter {
     }
 
 
+    public void restart(){
+        player.incrementScore();
+        restart = true;
+    }
 
     public void moveEntity(Entity e, float newX, float newY) {
         // just check x collisions keep y the same
@@ -135,7 +148,6 @@ public class MyGdxGame extends ApplicationAdapter {
                 if(newX < e2.x + e2.width && e2.x < newX + e1.width &&
                         newY < e2.y + e2.height && e2.y < newY + e1.height) {
                     collision = true;
-
                     e1.entityCollision(e2, newX, newY, direction);
                 }
             }
@@ -147,29 +159,28 @@ public class MyGdxGame extends ApplicationAdapter {
     @Override
     public void render () {
 
-        // update
-        // ---
-
         delta = Gdx.graphics.getDeltaTime();
 
-        // Only update movable staticEntities
-        for (Entity e : movableEntities){
-            e.update(delta);
-            moveEntity(e, e.x + e.dx, e.y + e.dy);
+        if(!restart){
+            // Only update movable staticEntities
+            for (Entity e : movableEntities){
+                e.update(delta);
+                moveEntity(e, e.x + e.dx, e.y + e.dy);
+            }
+        }else{
+            player.setPosition(map.getStart()[0]*tileSize, map.getStart()[1]*tileSize);
+            restart = false;
         }
 
-
-        // to offset where your map and staticEntities are drawn change the viewport
-        // see libgdx documentation
 
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
 
         drawMap();
+        headsUpDisplay.drawLabels(Integer.toString(player.getScore()));
 
         // Draw all the staticEntities.
-        // TODO: Need some new way for handling sprites that are animated
         drawStaticEntities();
         drawMovingEntities();
 
@@ -188,10 +199,13 @@ public class MyGdxGame extends ApplicationAdapter {
     }
 
     public void drawPlayer(){
-        if(tick%threshold == 0)
-            player.getNextSprite().draw(batch);
-        else player.getCurrentSprite().draw(batch);
-
+        if(!DEBUG_MODE) {
+            if(tick%threshold == 0)
+                player.getNextSprite().draw(batch);
+            else player.getCurrentSprite().draw(batch);
+        }else {
+            batch.draw(new Texture(Gdx.files.internal("player.png")), player.x, player.y);
+        }
         if(player.isMoving() && playMusic){
             music.setVolume(0.8f);
         }else if(playMusic)
@@ -206,7 +220,7 @@ public class MyGdxGame extends ApplicationAdapter {
                 }
             }
         }
-        batch.draw(map.getSSTexture(), map.getStart()[0]*tileSize, map.getStart()[1]*tileSize);
-        batch.draw(map.getSSTexture(), map.getEnd()[0]*tileSize, map.getStart()[1]*tileSize);
+        if(DEBUG_MODE)
+            batch.draw(map.getSSTexture(), map.getStart()[0]*tileSize, map.getStart()[1]*tileSize);
     }
 }

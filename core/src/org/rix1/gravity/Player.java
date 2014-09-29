@@ -15,6 +15,8 @@ public class Player extends MovableEntity implements Drawable {
     private AssetManager assets;
     private Sprite currentSprite;
 
+    private int score = 0;
+
     private int posCounter = 0;
     private int negCounter = 0;
     private int start = 4;  // WARNING: Not accounted for other spritesheets
@@ -25,6 +27,20 @@ public class Player extends MovableEntity implements Drawable {
 
         this.spriteSheetName = spriteSheetName;
         setSprite();
+
+    }
+
+    public void setPosition(float x, float y){
+        this.x = x;
+        this.y = y;
+    }
+
+    public void incrementScore(){
+        score++;
+    }
+
+    public int getScore() {
+        return score;
     }
 
     public void setSprite(){
@@ -65,6 +81,20 @@ public class Player extends MovableEntity implements Drawable {
         }
 
         setMoving();
+    }
+
+    @Override
+    public void entityCollision(Entity e2, float newX, float newY, MyGdxGame.Direction direction) {
+        // Whats best? To make the collider or the collidee handle collision? I say both.
+        System.out.println("Player collision around: " + newX + " " + newY);
+        e2.entityCollision(this, newX, newY, direction);
+        e2 = e2 instanceof StaticEntity ? ((StaticEntity) e2) : e2;
+
+        if(((StaticEntity) e2).isPickupable){
+            move(newX, newY);
+        }else {
+            System.out.println("\"Hey Jack! We just hit a wall or something\"");
+        }
     }
 
 

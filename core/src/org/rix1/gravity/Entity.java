@@ -1,6 +1,5 @@
 package org.rix1.gravity;
 
-import com.badlogic.gdx.graphics.Texture;
 import org.rix1.gravity.MyGdxGame.Direction;
 
 public abstract class Entity {
@@ -20,17 +19,11 @@ public abstract class Entity {
         this.height = height;
     }
 
-
-    public void update(float delta) {
-	}
+    public abstract void update(float delta);
 
 	public void move(float newX, float newY) {
 		x = newX;
 		y = newY;
-	}
-
-	public void render() {
-
 	}
 
 	public void tileCollision(int tileX, int tileY, float newX, float newY, Direction direction) {
@@ -50,11 +43,5 @@ public abstract class Entity {
 		}
 	}
 
-	public void entityCollision(Entity e2, float newX, float newY, Direction direction) {
-		System.out.println("entity collision around: " + newX + " " + newY);
-
-		move(newX, newY);
-		// could also resolve entity collisions in the same we do tile collision resolution
-		// as shown in class
-	}
+	public abstract void entityCollision(Entity e2, float newX, float newY, Direction direction);
 }

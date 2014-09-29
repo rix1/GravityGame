@@ -10,5 +10,6 @@ public class PowerUp extends StaticEntity {
 
     public PowerUp(MyGdxGame game, float x, float y, int width, int height, Texture texture) {
         super(game, x, y, width, height, texture);
+        isPickupable = true;
     }
 }
