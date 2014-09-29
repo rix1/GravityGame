@@ -77,6 +77,8 @@ public class GameClass extends ApplicationAdapter {
 
         movableEntities.add(player);
 
+        movableEntities.add(new EnemyEntity(this, 100, 200, tileSize, tileSize, 100f, new Texture(Gdx.files.internal("player.png"))));
+
         // Static staticEntities
         staticEntities.add(new StaticEntity(this, 50, 150, tileSize, tileSize, new Texture(Gdx.files.internal("enemy.png"))));
         staticEntities.add(new StaticEntity(this, 200, 200, tileSize, tileSize, new Texture(Gdx.files.internal("enemy.png"))));
@@ -92,6 +94,10 @@ public class GameClass extends ApplicationAdapter {
         if(!DEBUG_MODE) {
             startMusic();
         }
+    }
+
+    public Player getPlayer(){
+        return player;
     }
 
     public void startMusic(){
@@ -199,7 +205,7 @@ public class GameClass extends ApplicationAdapter {
         if(!restart){
             // Only update movable staticEntities
             for (Entity e : movableEntities){
-                e = e instanceof Player ? ((Player) e) : ((MovableEntity) e);
+                e = e instanceof Player ? ((Player) e) : ((EnemyEntity) e);
                 e.update(delta);
                 moveEntity(e, e.getX() + e.getDx(), e.getY() + e.getDy());
             }
@@ -227,7 +233,14 @@ public class GameClass extends ApplicationAdapter {
     }
 
     public void drawMovingEntities(){
-        drawPlayer();
+        for (MovableEntity me: movableEntities){
+            if(me instanceof Player){
+                drawPlayer();
+            }else{
+                System.out.println("DRAW PLAYER");
+                batch.draw(((EnemyEntity) me).getTexture(), me.getX(), me.getY());
+            }
+        }
     }
 
     public void drawStaticEntities(){

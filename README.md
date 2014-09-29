@@ -10,6 +10,8 @@ This game is really simple:
 
 ### How to run
 
+Import project or clone from https://github.com/rix1/GravityGame
+
 This game uses gradle. Just set it up in your preferred IDE and run the `build.gradle` file. If you are using IntelliJ, run configurations should already be set. In Eclipse, go to `Run Configurations..` and set `Main Class` to the `org.rix1.gravity.desktop.DesktopLauncher` class. Working directory needs to be set to `Gravity/core/assets/` and the classpath of module is the `desktop` module.
  
 ### Controls
