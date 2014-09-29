@@ -28,7 +28,7 @@ public class GameClass extends ApplicationAdapter {
     private HUD headsUpDisplay;
 
     private boolean restart = false;
-    private boolean DEBUG_MODE = false;
+    private boolean DEBUG_MODE = false; // THIS TURNS ON EXTRA DEV STUFF AND CUTS THE MUSIC
 
     private int threshold = 4;
 
