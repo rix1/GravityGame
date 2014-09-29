@@ -16,7 +16,6 @@ public class MyGdxGame extends ApplicationAdapter {
     int mapWidth = 15;
     int mapHeight = 15;
     int tileSize = 20;
-    Texture tileTexture;
     GameMap map;
     Player player;
 
@@ -40,7 +39,6 @@ public class MyGdxGame extends ApplicationAdapter {
     @Override
     public void create () {
         batch = new SpriteBatch();
-        tileTexture = new Texture("block.png");
 
         screenWidth = Gdx.graphics.getWidth();
         screenHeight = Gdx.graphics.getHeight();
@@ -48,7 +46,7 @@ public class MyGdxGame extends ApplicationAdapter {
         map = new GameMap(mapHeight, mapWidth);
 
         // add some staticEntities including a player
-        player = new Player(this, 100, 150, 20, 20, 120.0f, "spriteShit.txt");
+        player = new Player(this, map.getStart()[0]*tileSize, map.getStart()[1]*tileSize, 20, 20, 120.0f, "spriteShit.txt");
         movableEntities.add(player);
 
         // Static staticEntities
@@ -57,7 +55,7 @@ public class MyGdxGame extends ApplicationAdapter {
         staticEntities.add(new StaticEntity(this, 180, 50, 20, 20, new Texture(Gdx.files.internal("enemy.png"))));
 
         // This starts the music yo.
-        startMusic();
+//        startMusic();
     }
 
     public void startMusic(){
@@ -204,9 +202,11 @@ public class MyGdxGame extends ApplicationAdapter {
         for (int y = 0; y < mapHeight; y++) {
             for (int x = 0; x < mapWidth; x++) {
                 if(map.getMap()[y][x]){
-                    batch.draw(tileTexture, x * tileSize, y * tileSize);
+                    batch.draw(map.getTileTexture(), x * tileSize, y * tileSize);
                 }
             }
         }
+        batch.draw(map.getSSTexture(), map.getStart()[0]*tileSize, map.getStart()[1]*tileSize);
+        batch.draw(map.getSSTexture(), map.getEnd()[0]*tileSize, map.getStart()[1]*tileSize);
     }
 }

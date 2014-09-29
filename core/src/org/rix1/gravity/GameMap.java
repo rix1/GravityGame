@@ -7,18 +7,42 @@ import com.badlogic.gdx.graphics.Texture;
  * Description:
  */
 
-
 public class GameMap {
 
     private int width;
     private int height;
-    private Texture background;
+    private Texture startStopTexture;
+    private Texture tileTexture;
     private boolean [][] map; // [y][x]
+    private float[] start; // x,y
+    private float[] end;    // x,y
 
     public GameMap(int height, int width){
         this.height = height;
         this.width = width;
         generateMap();
+
+        tileTexture = new Texture("block.png");
+        startStopTexture = new Texture("startend.png");
+
+        start = new float[]{1,1};
+        end = new float[]{width-2,1}; // Minus two because
+    }
+
+    public float[] getStart() {
+        return start;
+    }
+
+    public float[] getEnd() {
+        return end;
+    }
+
+    public Texture getSSTexture() {
+        return startStopTexture;
+    }
+
+    public Texture getTileTexture() {
+        return tileTexture;
     }
 
     private void generateMap(){
