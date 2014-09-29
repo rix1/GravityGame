@@ -1,4 +1,4 @@
-package org.rix1.gravity;
+package org.rix1.gravity.Entites;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -6,13 +6,14 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.Array;
+import org.rix1.gravity.Drawable;
+import org.rix1.gravity.MyGdxGame;
+import org.rix1.gravity.Utils.Direction;
 
 public class Player extends MovableEntity implements Drawable {
 
     private String spriteSheetName;
     private Array<Sprite> sprites;
-    private TextureAtlas spriteSheet;
-    private AssetManager assets;
     private Sprite currentSprite;
 
     private int score = 0;
@@ -44,11 +45,11 @@ public class Player extends MovableEntity implements Drawable {
     }
 
     public void setSprite(){
-        assets = new AssetManager();
+        AssetManager assets = new AssetManager();
         assets.load(spriteSheetName, TextureAtlas.class);
 
         assets.finishLoading();
-        spriteSheet = assets.get(spriteSheetName);
+        TextureAtlas spriteSheet = assets.get(spriteSheetName);
         sprites = spriteSheet.createSprites();
         end = sprites.size;
     }
@@ -58,39 +59,40 @@ public class Player extends MovableEntity implements Drawable {
     }
 
     public void update(float delta){
+//        System.out.println("Updating PLAYER");
 
         dx = 0;
         dy = 0;
 
+
         // move
         if(Gdx.input.isKeyPressed(Input.Keys.UP)) {
             dy = speed * delta;
-            currentDir = MyGdxGame.Direction.U;
+            currentDir = Direction.U;
         }
         if(Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
             dy = -speed * delta;
-            currentDir = MyGdxGame.Direction.D;
+            currentDir = Direction.D;
         }
         if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
             dx = -speed * delta;
-            currentDir = MyGdxGame.Direction.L;
+            currentDir = Direction.L;
         }
         if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
             dx = speed * delta;
-            currentDir = MyGdxGame.Direction.R;
+            currentDir = Direction.R;
         }
-
         setMoving();
     }
 
     @Override
-    public void entityCollision(Entity e2, float newX, float newY, MyGdxGame.Direction direction) {
+    public void entityCollision(Entity e2, float newX, float newY, Direction direction) {
         // Whats best? To make the collider or the collidee handle collision? I say both.
         System.out.println("Player collision around: " + newX + " " + newY);
         e2.entityCollision(this, newX, newY, direction);
         e2 = e2 instanceof StaticEntity ? ((StaticEntity) e2) : e2;
 
-        if(((StaticEntity) e2).isPickupable){
+        if(((StaticEntity) e2).inBackground){
             move(newX, newY);
         }else {
             System.out.println("\"Hey Jack! We just hit a wall or something\"");

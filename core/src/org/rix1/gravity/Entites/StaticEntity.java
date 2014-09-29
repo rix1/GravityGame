@@ -1,6 +1,8 @@
-package org.rix1.gravity;
+package org.rix1.gravity.Entites;
 
 import com.badlogic.gdx.graphics.Texture;
+import org.rix1.gravity.MyGdxGame;
+import org.rix1.gravity.Utils.Direction;
 
 /**
  * Created by Rikard Eide on 28/09/14.
@@ -16,6 +18,7 @@ public class StaticEntity extends Entity {
     public StaticEntity(MyGdxGame game, float x, float y, int width, int height, Texture texture) {
         super(game, x, y, width, height);
         this.texture = texture;
+        inBackground = false;
     }
 
     public Texture getTexture() {
@@ -28,7 +31,10 @@ public class StaticEntity extends Entity {
     }
 
     @Override
-    public void entityCollision(Entity e2, float newX, float newY, MyGdxGame.Direction direction) {
-
+    public void entityCollision(Entity e2, float newX, float newY, Direction direction) {
+        if(this.isPickupable){
+            isVisible = false;
+            //TODO: Add some points or something to player;
+        }
     }
 }

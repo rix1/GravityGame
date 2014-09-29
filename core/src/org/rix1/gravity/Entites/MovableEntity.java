@@ -1,9 +1,7 @@
-package org.rix1.gravity;
+package org.rix1.gravity.Entites;
 
-import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.utils.Array;
+import org.rix1.gravity.MyGdxGame;
+import org.rix1.gravity.Utils.Direction;
 
 /**
  * Created by Rikard Eide on 28/09/14.
@@ -12,7 +10,7 @@ import com.badlogic.gdx.utils.Array;
 
 public class MovableEntity extends Entity {
 
-    protected MyGdxGame.Direction currentDir;
+    protected Direction currentDir;
     protected boolean isMoving;
     protected float speed;
 
@@ -21,12 +19,13 @@ public class MovableEntity extends Entity {
     public MovableEntity(MyGdxGame game, float x, float y, int width, int height, float speed) {
         super(game, x, y, width, height);
         this.speed = speed;
-        currentDir = MyGdxGame.Direction.L; // Default direction
+        currentDir = Direction.L; // Default direction
+        inBackground = false;
     }
 
 
 
-    public MyGdxGame.Direction getCurrentDir(){
+    public Direction getCurrentDir(){
         return currentDir;
     }
 
@@ -35,19 +34,18 @@ public class MovableEntity extends Entity {
     }
 
     protected void setMoving(){
-        if((x-dx)!= x || (y-dy) != y){
-            isMoving = true;
-        }else isMoving = false;
+        isMoving = (x - dx) != x || (y - dy) != y;
     }
 
 
     @Override
     public void update(float delta) {
-
+        System.out.println("Updating MOVABLE OBJECT");
+        // TODO: Create update method for bots based on some heuristic
     }
 
     @Override
-    public void entityCollision(Entity e2, float newX, float newY, MyGdxGame.Direction direction) {
+    public void entityCollision(Entity e2, float newX, float newY, Direction direction) {
         System.out.println("Player collision around: " + newX + " " + newY);
 
     }

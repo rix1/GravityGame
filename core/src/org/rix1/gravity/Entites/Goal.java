@@ -1,6 +1,8 @@
-package org.rix1.gravity;
+package org.rix1.gravity.Entites;
 
 import com.badlogic.gdx.graphics.Texture;
+import org.rix1.gravity.MyGdxGame;
+import org.rix1.gravity.Utils.Direction;
 
 /**
  * Created by Rikard Eide on 29/09/14.
@@ -15,7 +17,7 @@ public class Goal extends StaticEntity {
         isPickupable = true;
     }
 
-    public void entityCollision(Entity e2, float newX, float newY, MyGdxGame.Direction direction) {
+    public void entityCollision(Entity e2, float newX, float newY, Direction direction) {
         System.out.println("Reached GOAL around: " + newX + " " + newY);
 
         if(e2 instanceof Player){

@@ -8,6 +8,9 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import org.rix1.gravity.Entites.*;
+import org.rix1.gravity.Utils.Axis;
+import org.rix1.gravity.Utils.Direction;
 
 public class MyGdxGame extends ApplicationAdapter {
     SpriteBatch batch;
@@ -34,8 +37,18 @@ public class MyGdxGame extends ApplicationAdapter {
     ArrayList<StaticEntity> staticEntities = new ArrayList<StaticEntity>();
     ArrayList<MovableEntity> movableEntities = new ArrayList<MovableEntity>();
 
-    enum Axis { X, Y };
-    enum Direction { U, D, L, R };
+
+    public int getTileSize() {
+        return tileSize;
+    }
+
+    public ArrayList<StaticEntity> getStaticEntities() {
+        return staticEntities;
+    }
+
+    public ArrayList<MovableEntity> getMovableEntities() {
+        return movableEntities;
+    }
 
     @Override
     public void create () {
@@ -53,7 +66,7 @@ public class MyGdxGame extends ApplicationAdapter {
         // Static staticEntities
         staticEntities.add(new StaticEntity(this, 50, 150, tileSize, tileSize, new Texture(Gdx.files.internal("enemy.png"))));
         staticEntities.add(new StaticEntity(this, 200, 200, tileSize, tileSize, new Texture(Gdx.files.internal("enemy.png"))));
-        staticEntities.add(new StaticEntity(this, 180, 50, tileSize, tileSize, new Texture(Gdx.files.internal("enemy.png"))));
+        staticEntities.add(new PowerUp(this, 180, 50, tileSize, tileSize, new Texture(Gdx.files.internal("block.png"))));
 
         // Goal
         staticEntities.add(new Goal(this, map.getEnd()[0]*tileSize, map.getEnd()[1]*tileSize, tileSize, tileSize, map.getSSTexture()));
@@ -85,13 +98,20 @@ public class MyGdxGame extends ApplicationAdapter {
     public void restart(){
         player.incrementScore();
         restart = true;
+        resetMap();
+    }
+
+    private void resetMap(){
+        for (StaticEntity e:staticEntities){
+            e.setVisible();
+        }
     }
 
     public void moveEntity(Entity e, float newX, float newY) {
         // just check x collisions keep y the same
-        moveEntityInAxis(e, Axis.X, newX, e.y);
+        moveEntityInAxis(e, Axis.X, newX, e.getY());
         // just check y collisions keep x the same
-        moveEntityInAxis(e, Axis.Y, e.x, newY);
+        moveEntityInAxis(e, Axis.Y, e.getX(), newY);
     }
 
     public void moveEntityInAxis(Entity e, Axis axis, float newX, float newY) {
@@ -99,11 +119,11 @@ public class MyGdxGame extends ApplicationAdapter {
 
         // determine axis direction
         if(axis == Axis.Y) {
-            if(newY - e.y < 0) direction = Direction.U;
+            if(newY - e.getY() < 0) direction = Direction.U;
             else direction = Direction.D;
         }
         else {
-            if(newX - e.x < 0) direction = Direction.L;
+            if(newX - e.getX() < 0) direction = Direction.L;
             else direction = Direction.R;
         }
 
@@ -118,10 +138,10 @@ public class MyGdxGame extends ApplicationAdapter {
         boolean collision = false;
 
         // determine affected tiles
-        int x1 = (int) Math.floor(Math.min(e.x, newX) / tileSize);
-        int y1 = (int) Math.floor(Math.min(e.y, newY) / tileSize);
-        int x2 = (int) Math.floor((Math.max(e.x, newX) + e.width - 0.1f) / tileSize);
-        int y2 = (int) Math.floor((Math.max(e.y, newY) + e.height - 0.1f) / tileSize);
+        int x1 = (int) Math.floor(Math.min(e.getX(), newX) / tileSize);
+        int y1 = (int) Math.floor(Math.min(e.getY(), newY) / tileSize);
+        int x2 = (int) Math.floor((Math.max(e.getX(), newX) + e.getWidth() - 0.1f) / tileSize);
+        int y2 = (int) Math.floor((Math.max(e.getY(), newY) + e.getHeight() - 0.1f) / tileSize);
 
 
         // tile checks
@@ -145,8 +165,8 @@ public class MyGdxGame extends ApplicationAdapter {
             // we don't want to check for collisions between the same entity
             if(e1 != e2) {
                 // axis aligned rectangle rectangle collision detection
-                if(newX < e2.x + e2.width && e2.x < newX + e1.width &&
-                        newY < e2.y + e2.height && e2.y < newY + e1.height) {
+                if(newX < e2.getX() + e2.getWidth() && e2.getX() < newX + e1.getWidth() &&
+                        newY < e2.getY() + e2.getHeight() && e2.getY() < newY + e1.getHeight()) {
                     collision = true;
                     e1.entityCollision(e2, newX, newY, direction);
                 }
@@ -164,8 +184,9 @@ public class MyGdxGame extends ApplicationAdapter {
         if(!restart){
             // Only update movable staticEntities
             for (Entity e : movableEntities){
+                e = e instanceof Player ? ((Player) e) : ((MovableEntity) e);
                 e.update(delta);
-                moveEntity(e, e.x + e.dx, e.y + e.dy);
+                moveEntity(e, e.getX() + e.getDx(), e.getY() + e.getDy());
             }
         }else{
             player.setPosition(map.getStart()[0]*tileSize, map.getStart()[1]*tileSize);
@@ -194,7 +215,8 @@ public class MyGdxGame extends ApplicationAdapter {
 
     public void drawStaticEntities(){
         for (StaticEntity e:staticEntities){
-            batch.draw(e.getTexture(), e.x, e.y);
+            if(e.isVisible())
+                batch.draw(e.getTexture(), e.getX(), e.getY());
         }
     }
 
@@ -204,7 +226,7 @@ public class MyGdxGame extends ApplicationAdapter {
                 player.getNextSprite().draw(batch);
             else player.getCurrentSprite().draw(batch);
         }else {
-            batch.draw(new Texture(Gdx.files.internal("player.png")), player.x, player.y);
+            batch.draw(new Texture(Gdx.files.internal("player.png")), player.getX(), player.getY());
         }
         if(player.isMoving() && playMusic){
             music.setVolume(0.8f);
