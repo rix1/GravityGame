@@ -33,6 +33,10 @@ public class StaticEntity extends Entity {
     @Override
     public void entityCollision(Entity e2, float newX, float newY, Direction direction) {
         if(this.isPickupable){
+            if(isVisible){
+                ((Player)e2).incrementScore();
+                ((Player)e2).incrementScore();
+            }
             isVisible = false;
             //TODO: Add some points or something to player;
         }

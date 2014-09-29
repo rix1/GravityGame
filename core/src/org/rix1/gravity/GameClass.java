@@ -12,6 +12,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import org.rix1.gravity.Entites.*;
 import org.rix1.gravity.Utils.Axis;
 import org.rix1.gravity.Utils.Direction;
+import org.rix1.gravity.Utils.PlayerInfo;
+import org.rix1.gravity.Utils.Utils;
 
 public class GameClass extends ApplicationAdapter {
     SpriteBatch batch;
@@ -52,6 +54,11 @@ public class GameClass extends ApplicationAdapter {
     }
 
     @Override
+    public void dispose(){
+        Utils.saveGame(player);
+    }
+
+    @Override
     public void create () {
         batch = new SpriteBatch();
 
@@ -61,7 +68,12 @@ public class GameClass extends ApplicationAdapter {
         map = new GameMap(mapHeight, mapWidth);
 
         // add some staticEntities including a player
-        player = new Player(this, map.getStart()[0]*tileSize, map.getStart()[1]*tileSize, 20, 20, 120.0f);
+        player = new Player(this, map.getStart()[0] * tileSize, map.getStart()[1] * tileSize, 20, 20, 120.0f);
+
+        PlayerInfo p = Utils.loadGame();
+        if(p != null)
+            player.setPlayerInfo(p);
+
         movableEntities.add(player);
 
         // Static staticEntities
@@ -194,7 +206,7 @@ public class GameClass extends ApplicationAdapter {
         }
 
 
-        Gdx.gl.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glClearColor(0.20f, 0.20f, 0.20f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
 
@@ -226,7 +238,7 @@ public class GameClass extends ApplicationAdapter {
             playerSprite = player.getNextSprite();
         }
         else playerSprite = player.getCurrentSprite();
-        playerSprite.setBounds(player.getX(),player.getY(),100f,150f);
+        playerSprite.setBounds(player.getX(),player.getY(),60f,100f);
         playerSprite.draw(batch);
     }
 

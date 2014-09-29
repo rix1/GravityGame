@@ -9,6 +9,7 @@ import org.rix1.gravity.Animations.WalkAnimation;
 import org.rix1.gravity.Drawable;
 import org.rix1.gravity.GameClass;
 import org.rix1.gravity.Utils.Direction;
+import org.rix1.gravity.Utils.PlayerInfo;
 
 public class Player extends MovableEntity implements Drawable {
 
@@ -28,6 +29,23 @@ public class Player extends MovableEntity implements Drawable {
         this.x = x;
         this.y = y;
     }
+
+    /**
+     * I know this kinda defies the whole point of Gson, but before I can
+     * use v2.3, I have to clean up my Player object, which I dont have time to.
+     * @param info
+     */
+
+    public void setPlayerInfo(PlayerInfo info){
+        this.score = info.getScore();
+        this.x = info.getX();
+        this.y = info.getY();
+    }
+
+    public PlayerInfo getPlayerInfo(){
+        return new PlayerInfo(x, y, score);
+    }
+
 
     public void incrementScore(){
         score++;
