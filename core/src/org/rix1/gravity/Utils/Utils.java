@@ -15,7 +15,6 @@ public class Utils {
 
     public static final String FILENAME = "gamestate.json";
 
-
     public Utils(){
 
     }

@@ -39,7 +39,7 @@ public abstract class Entity {
 	}
 
 	public void tileCollision(int tileX, int tileY, float newX, float newY, Direction direction) {
-        System.out.println("tile collision at: " + tileX + " " + tileY);
+//        System.out.println("tile collision at: " + tileX + " " + tileY);
 
         if (direction == Direction.U) {
             y = tileY * game.getTileSize() + game.getTileSize();

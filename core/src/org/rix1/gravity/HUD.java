@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.utils.Timer;
 
 /**
  * Created by Rikard Eide on 29/09/14.
@@ -36,10 +37,13 @@ public class HUD {
         font.setColor(Color.WHITE);
     }
 
-
     public void drawLabels(String score){
         font.draw(game.batch, " SCORE: " + score, 350,300);
     }
 
+    public void announceNewGame(String gameCount){
+        font.draw(game.batch, "YAY, U FOUND EXIT", 350,250);
+        font.draw(game.batch, "THIS IS GAME NO. " + gameCount, 350,200);
+    }
 
 }

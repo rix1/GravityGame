@@ -22,6 +22,7 @@ public class GameClass extends ApplicationAdapter {
     int mapWidth = 15;
     int mapHeight = 15;
     int tileSize = 20;
+    int gameCount = 0;
     GameMap map;
     Player player;
     private HUD headsUpDisplay;
@@ -109,9 +110,11 @@ public class GameClass extends ApplicationAdapter {
 
 
     public void restart(){
+        gameCount++;
         player.incrementScore();
         restart = true;
         resetMap();
+//        headsUpDisplay.announceNewGame(Integer.toString(gameCount));
     }
 
     private void resetMap(){
@@ -212,6 +215,8 @@ public class GameClass extends ApplicationAdapter {
 
         drawMap();
         headsUpDisplay.drawLabels(Integer.toString(player.getScore()));
+        if(gameCount > 0)
+            headsUpDisplay.announceNewGame(Integer.toString(gameCount));
 
         // Draw all the staticEntities.
         drawStaticEntities();
