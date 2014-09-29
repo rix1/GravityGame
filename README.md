@@ -7,6 +7,11 @@ This game is really simple:
 
 *(Hint: Exists a removable tile that gives you even more points!)*
  
+
+### How to run
+
+This game uses gradle. Just set it up in your preferred IDE and run the `build.gradle` file. If you are using IntelliJ, run configurations should already be set. In Eclipse, go to `Run Configurations..` and set `Main Class` to the `org.rix1.gravity.desktop.DesktopLauncher` class. Working directory needs to be set to `Gravity/core/assets/` and the classpath of module is the `desktop` module.
+ 
 ### Controls
 
 Walk your character around the map with the `up, down, left, right` keys on your keyboard. No jumping in this version!
