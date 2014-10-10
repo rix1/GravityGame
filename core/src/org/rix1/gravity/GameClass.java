@@ -21,7 +21,7 @@ public class GameClass extends ApplicationAdapter {
     int screenHeight;
     int mapWidth = 15;
     int mapHeight = 15;
-    int tileSize = 20;
+    int tileSize = Utils.tileSize;
     int gameCount = 0;
     GameMap map;
     Player player;
@@ -77,7 +77,7 @@ public class GameClass extends ApplicationAdapter {
 
         movableEntities.add(player);
 
-        movableEntities.add(new EnemyEntity(this, 100, 200, tileSize, tileSize, 100f, new Texture(Gdx.files.internal("player.png"))));
+        movableEntities.add(new EnemyEntity(this, 100, 200, tileSize, tileSize, 50f, new Texture(Gdx.files.internal("player.png"))));
 
         // Static staticEntities
         staticEntities.add(new StaticEntity(this, 50, 150, tileSize, tileSize, new Texture(Gdx.files.internal("enemy.png"))));
@@ -119,6 +119,7 @@ public class GameClass extends ApplicationAdapter {
         gameCount++;
         player.incrementScore();
         restart = true;
+        player.setHasPowerUp(false);
         resetMap();
 //        headsUpDisplay.announceNewGame(Integer.toString(gameCount));
     }

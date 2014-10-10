@@ -3,6 +3,7 @@ package org.rix1.gravity.Utils;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.google.gson.Gson;
+import org.rix1.gravity.Entites.Entity;
 import org.rix1.gravity.Entites.Player;
 
 
@@ -14,9 +15,18 @@ import org.rix1.gravity.Entites.Player;
 public class Utils {
 
     public static final String FILENAME = "gamestate.json";
+    public static final int tileSize = 20;
 
     public Utils(){
 
+    }
+
+    public static Position getTile(Position p){
+        return new Position(p.getX()/tileSize, p.getY()/tileSize);
+    }
+
+    public static Position getTile(Entity e){
+        return new Position(e.getX()/tileSize, e.getY()/tileSize);
     }
 
     public static void saveGame(Player player){

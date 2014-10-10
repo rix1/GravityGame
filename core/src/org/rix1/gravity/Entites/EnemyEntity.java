@@ -1,7 +1,5 @@
 package org.rix1.gravity.Entites;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import org.rix1.gravity.GameClass;
 import org.rix1.gravity.Utils.Direction;
@@ -13,6 +11,7 @@ import org.rix1.gravity.Utils.Direction;
 public class EnemyEntity extends MovableEntity{
 
     private Texture texture;
+
 
 
     public EnemyEntity(GameClass game, float x, float y, int width, int height, float speed, Texture texture) {
@@ -32,22 +31,25 @@ public class EnemyEntity extends MovableEntity{
         dx = 0;
         dy = 0;
 
-        // move
-        if(player.getY() > this.y) {
-            dy = speed * delta;
-            currentDir = Direction.U;
-        }
-        if(player.getY() < this.y) {
-            dy = -speed * delta;
-            currentDir = Direction.D;
-        }
-        if(player.getX() < this.x) {
-            dx = -speed * delta;
-            currentDir = Direction.L;
-        }
-        if(player.getX() > this.x) {
-            dx = speed * delta;
-            currentDir = Direction.R;
+        if (player.hasPowerUp()) {
+
+            // move
+            if (player.getY() > this.y) {
+                dy = speed * delta;
+                currentDir = Direction.U;
+            }
+            if (player.getY() < this.y) {
+                dy = -speed * delta;
+                currentDir = Direction.D;
+            }
+            if (player.getX() < this.x) {
+                dx = -speed * delta;
+                currentDir = Direction.L;
+            }
+            if (player.getX() > this.x) {
+                dx = speed * delta;
+                currentDir = Direction.R;
+            }
         }
     }
 

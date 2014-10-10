@@ -7,6 +7,7 @@ import org.rix1.gravity.GameClass;
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
+        config.title = "What else is there?";
 		new LwjglApplication(new GameClass(), config);
 	}
 }

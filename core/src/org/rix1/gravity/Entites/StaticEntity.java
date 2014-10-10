@@ -36,6 +36,7 @@ public class StaticEntity extends Entity {
             if(isVisible){
                 ((Player)e2).incrementScore();
                 ((Player)e2).incrementScore();
+                ((Player)e2).setHasPowerUp(true);
             }
             isVisible = false;
             //TODO: Add some points or something to player;

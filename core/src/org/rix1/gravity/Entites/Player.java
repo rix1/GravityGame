@@ -18,11 +18,13 @@ public class Player extends MovableEntity implements Drawable {
 
     private Animation walkForwardAnimation;
     private Animation walkBackwardAnimation;
+    private boolean hasPowerUp;
 
     public Player(GameClass game, float x, float y, int width, int height, float speed) {
         super(game, x, y, width, height, speed);
         walkForwardAnimation = new WalkAnimation(4, 17, "playerWalk.txt", false);
         walkBackwardAnimation = new WalkAnimation(4, 17, "playerWalk.txt", true);
+        hasPowerUp = false;
     }
 
     public void setPosition(float x, float y){
@@ -40,6 +42,15 @@ public class Player extends MovableEntity implements Drawable {
         this.score = info.getScore();
         this.x = info.getX();
         this.y = info.getY();
+    }
+
+
+    public boolean hasPowerUp() {
+        return hasPowerUp;
+    }
+
+    public void setHasPowerUp(boolean hasPowerUp) {
+        this.hasPowerUp = hasPowerUp;
     }
 
     public PlayerInfo getPlayerInfo(){

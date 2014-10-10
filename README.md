@@ -33,4 +33,4 @@ The game offers the following features:
 
 ### AI
 
-There is little AI, but some stupid green stalker is following you.
+There is little AI, but some stupid green stalker is following you.≤
