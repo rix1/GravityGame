@@ -21,13 +21,7 @@ public class Utils {
 
     }
 
-    public static Position getTile(Position p){
-        return new Position(p.getX()/tileSize, p.getY()/tileSize);
-    }
 
-    public static Position getTile(Entity e){
-        return new Position(e.getX()/tileSize, e.getY()/tileSize);
-    }
 
     public static void saveGame(Player player){
         Gson gson = new Gson();

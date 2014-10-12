@@ -1,6 +1,8 @@
 package org.rix1.gravity.Entites;
 
+import com.badlogic.gdx.graphics.Texture;
 import org.rix1.gravity.GameClass;
+import org.rix1.gravity.GameMap;
 import org.rix1.gravity.Utils.Direction;
 
 /**
@@ -13,7 +15,7 @@ public class MovableEntity extends Entity {
     protected Direction currentDir;
     protected boolean isMoving;
     protected float speed;
-
+    protected Texture texture;
 
 
     public MovableEntity(GameClass game, float x, float y, int width, int height, float speed) {
@@ -21,9 +23,14 @@ public class MovableEntity extends Entity {
         this.speed = speed;
         currentDir = Direction.L; // Default direction
         inBackground = false;
+        this.texture = GameMap.TEX_DEFAULT;
+
     }
 
 
+    public Texture getTexture() {
+        return texture;
+    }
 
     public Direction getCurrentDir(){
         return currentDir;
@@ -45,7 +52,7 @@ public class MovableEntity extends Entity {
     }
 
     @Override
-    public void entityCollision(Entity e2, float newX, float newY, Direction direction) {
+    public void entityCollision(Entity e2, float newX, float newY) {
         System.out.println("Player collision around: " + newX + " " + newY);
 
     }

@@ -28,7 +28,7 @@ public class GameClass extends ApplicationAdapter {
     private HUD headsUpDisplay;
 
     private boolean restart = false;
-    private boolean DEBUG_MODE = false; // THIS TURNS ON EXTRA DEV STUFF AND CUTS THE MUSIC
+    private boolean DEBUG_MODE = true; // THIS TURNS ON EXTRA DEV STUFF AND CUTS THE MUSIC
 
     private int threshold = 4;
 
@@ -41,6 +41,13 @@ public class GameClass extends ApplicationAdapter {
     ArrayList<StaticEntity> staticEntities = new ArrayList<StaticEntity>();
     ArrayList<MovableEntity> movableEntities = new ArrayList<MovableEntity>();
 
+    public int[][] getLogicalMap() {
+        return map.getMap();
+    }
+
+    public GameMap getMap() {
+        return map;
+    }
 
     public int getTileSize() {
         return tileSize;
@@ -77,15 +84,15 @@ public class GameClass extends ApplicationAdapter {
 
         movableEntities.add(player);
 
-        movableEntities.add(new EnemyEntity(this, 100, 200, tileSize, tileSize, 50f, new Texture(Gdx.files.internal("player.png"))));
+        movableEntities.add(new EnemyEntity(this, 100, 200, tileSize, tileSize, 50f));
 
         // Static staticEntities
-        staticEntities.add(new StaticEntity(this, 50, 150, tileSize, tileSize, new Texture(Gdx.files.internal("enemy.png"))));
-        staticEntities.add(new StaticEntity(this, 200, 200, tileSize, tileSize, new Texture(Gdx.files.internal("enemy.png"))));
-        staticEntities.add(new PowerUp(this, 180, 50, tileSize, tileSize, new Texture(Gdx.files.internal("block.png"))));
+        staticEntities.add(new StaticEntity(this, 50, 150, tileSize, tileSize));
+        staticEntities.add(new StaticEntity(this, 200, 200, tileSize, tileSize));
+        staticEntities.add(new PowerUp(this, 180, 50, tileSize, tileSize));
 
         // Goal
-        staticEntities.add(new Goal(this, map.getEnd()[0]*tileSize, map.getEnd()[1]*tileSize, tileSize, tileSize, map.getSSTexture()));
+        staticEntities.add(new Goal(this, map.getEnd()[0]*tileSize, map.getEnd()[1]*tileSize, tileSize, tileSize));
 
         // HUD
         headsUpDisplay = new HUD(this);
@@ -169,7 +176,7 @@ public class GameClass extends ApplicationAdapter {
         // tile checks
         for(int y = y1; y <= y2; y++) {
             for(int x = x1; x <= x2; x++) {
-                if(map.getMap()[y][x]) {
+                if(map.getMap()[y][x] == GameMap.WALL) {
                     collision = true;
                     e.tileCollision(x, y, newX, newY, direction);
                 }
@@ -190,7 +197,7 @@ public class GameClass extends ApplicationAdapter {
                 if(newX < e2.getX() + e2.getWidth() && e2.getX() < newX + e1.getWidth() &&
                         newY < e2.getY() + e2.getHeight() && e2.getY() < newY + e1.getHeight()) {
                     collision = true;
-                    e1.entityCollision(e2, newX, newY, direction);
+                    e1.entityCollision(e2, newX, newY);
                 }
             }
         }
@@ -238,8 +245,8 @@ public class GameClass extends ApplicationAdapter {
             if(me instanceof Player){
                 drawPlayer();
             }else{
-                System.out.println("DRAW PLAYER");
-                batch.draw(((EnemyEntity) me).getTexture(), me.getX(), me.getY());
+//                System.out.println("DRAW PLAYER");
+                batch.draw(me.getTexture(), me.getX(), me.getY());
             }
         }
     }
@@ -273,8 +280,14 @@ public class GameClass extends ApplicationAdapter {
     public void drawMap(){
         for (int y = 0; y < mapHeight; y++) {
             for (int x = 0; x < mapWidth; x++) {
-                if(map.getMap()[y][x]){
-                    batch.draw(map.getTileTexture(), x * tileSize, y * tileSize);
+                if(map.getMap()[y][x] == GameMap.WALL){
+                    batch.draw(GameMap.TEX_WALL, x * tileSize, y * tileSize);
+                }
+                if(map.getMap()[y][x] == GameMap.OPEN){
+                    batch.draw(GameMap.TEX_DEFAULT, x * tileSize, y * tileSize);
+                }
+                if(map.getMap()[y][x] == GameMap.CLOSED){
+                    batch.draw(GameMap.TEX_DEFAULT_LIGHT, x * tileSize, y * tileSize);
                 }
             }
         }

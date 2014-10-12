@@ -2,6 +2,7 @@ package org.rix1.gravity.Entites;
 
 import org.rix1.gravity.GameClass;
 import org.rix1.gravity.Utils.Direction;
+import org.rix1.gravity.Utils.Tile;
 
 public abstract class Entity {
     protected GameClass game;
@@ -21,6 +22,7 @@ public abstract class Entity {
         this.width = width;
         this.height = height;
         isVisible = true; // By default every object should be visible, right?
+
     }
 
     public boolean isVisible(){
@@ -51,7 +53,7 @@ public abstract class Entity {
             x = tileX * game.getTileSize() - width;
         }
     }
-	public abstract void entityCollision(Entity e2, float newX, float newY, Direction direction);
+	public abstract void entityCollision(Entity e2, float newX, float newY);
 
     //====== Getters and setters. ====== //
 
@@ -103,5 +105,14 @@ public abstract class Entity {
 
     public void setHeight(int height) {
         this.height = height;
+    }
+
+    public GameClass getGame() {
+        return game;
+    }
+
+    // Warning: May spill some memory here...
+    public Tile getTile(){
+        return new Tile(this.x, this.y);
     }
 }

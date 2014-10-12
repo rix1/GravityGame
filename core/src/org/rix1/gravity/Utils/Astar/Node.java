@@ -1,7 +1,6 @@
 package org.rix1.gravity.Utils.Astar;
 
-import org.rix1.gravity.Utils.Position;
-import org.rix1.gravity.Utils.Utils;
+import org.rix1.gravity.Utils.Tile;
 
 import java.util.ArrayList;
 
@@ -12,15 +11,18 @@ import java.util.ArrayList;
 
 public class Node implements Comparable<Node> {
 
-    private static Position playerPos;
-    private static Position startPos;
+    private static Tile playerPos;
+    private static Tile startPos;
 
     private int f = 0, g = 0, h = 0;
     private boolean status; // True = OPEN, false = CLOSED
     private ArrayList<Node> children;
     private Node parent;
-    private Position currentPos;
+    private Tile currentPos;
 
+    public Tile getCurrentPos() {
+        return currentPos;
+    }
 
     /**
      * This should only be called when initializing the tree(?)
@@ -28,11 +30,16 @@ public class Node implements Comparable<Node> {
      * @param startPos
      */
 
-    public Node(Position playerPos, Position startPos){
-        this.playerPos = Utils.getTile(playerPos);
-        this.startPos = Utils.getTile(startPos);
-        g = -1;
-        h = getDistToGoal();
+
+
+    public Node(Tile playerPos, Tile startPos){
+        this.playerPos = playerPos;
+        this.startPos = startPos;
+        this.currentPos = startPos;
+        g = 0;
+        h = distanceToGoal(startPos);
+        updateF();
+        children = new ArrayList<Node>();
     }
 
 
@@ -42,11 +49,13 @@ public class Node implements Comparable<Node> {
      * @param currentPos
      */
 
-    private Node(Node parent, Position currentPos){
+    public Node(Node parent, Tile currentPos){
         this.parent = parent;
         this.currentPos = currentPos;
         this.g = parent.getDistanceFromStart()+1;
-        this.h = distanceToGoal();
+        this.h = distanceToGoal(currentPos);
+        updateF();
+        children = new ArrayList<Node>();
         parent.addKid(this);
     }
 
@@ -56,6 +65,20 @@ public class Node implements Comparable<Node> {
 
     public void addKid(Node kid){
         children.add(kid);
+    }
+
+    public boolean update(Tile newPosition, Node newParent){
+        int tempF = (newParent.getDistanceFromStart() +1) + distanceToGoal(newPosition);
+        if(tempF < f){
+            this.parent = newParent;
+            this.currentPos = newPosition;
+            this.g = newParent.getDistanceFromStart()+1;
+            this.h = distanceToGoal(newPosition);
+            updateF();
+            newParent.addKid(this);
+            return true;
+        }
+        return false;
     }
 
     public void setStatus(boolean status){
@@ -78,9 +101,22 @@ public class Node implements Comparable<Node> {
         return f;
     }
 
-    public int distanceToGoal(){
-        int dist = (Math.abs(playerPos.getIntX()-currentPos.getIntX()) + Math.abs(playerPos.getIntY()-currentPos.getIntY()));
+    public int distanceToGoal(Tile position){
+        int dist = (Math.abs(playerPos.getX()-position.getX()) + Math.abs(playerPos.getY()-position.getY()));
+
         return dist;
+    }
+
+    @Override
+    public String toString() {
+        return "Node{" +
+                "f=" + f +
+                ", g=" + g +
+                ", h=" + h +
+                ", status=" + status +
+                ", parent=" + parent +
+                ", currentPos=" + currentPos.toString() +
+                '}';
     }
 
     @Override

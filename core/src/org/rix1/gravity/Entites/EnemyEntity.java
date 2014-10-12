@@ -2,6 +2,8 @@ package org.rix1.gravity.Entites;
 
 import com.badlogic.gdx.graphics.Texture;
 import org.rix1.gravity.GameClass;
+import org.rix1.gravity.GameMap;
+import org.rix1.gravity.Utils.Astar.AstarLogic;
 import org.rix1.gravity.Utils.Direction;
 
 /**
@@ -10,17 +12,11 @@ import org.rix1.gravity.Utils.Direction;
  */
 public class EnemyEntity extends MovableEntity{
 
-    private Texture texture;
+    private boolean astarRun = false;
 
-
-
-    public EnemyEntity(GameClass game, float x, float y, int width, int height, float speed, Texture texture) {
+    public EnemyEntity(GameClass game, float x, float y, int width, int height, float speed) {
         super(game, x, y, width, height, speed);
-        this.texture = texture;
-    }
-
-    public Texture getTexture() {
-        return texture;
+        this.texture = GameMap.TEX_ENEMY;
     }
 
     @Override
@@ -30,6 +26,12 @@ public class EnemyEntity extends MovableEntity{
 
         dx = 0;
         dy = 0;
+
+        if(!astarRun) {
+            AstarLogic astar = new AstarLogic(player, this);
+            System.out.println("Player position: " + player.getTile().toString());
+            astarRun = true;
+        }
 
         if (player.hasPowerUp()) {
 

@@ -96,10 +96,10 @@ public class Player extends MovableEntity implements Drawable {
     }
 
     @Override
-    public void entityCollision(Entity e2, float newX, float newY, Direction direction) {
+    public void entityCollision(Entity e2, float newX, float newY) {
         // Whats best? To make the collider or the collidee handle collision? I say both.
 //        System.out.println("Player collision around: " + newX + " " + newY);
-        e2.entityCollision(this, newX, newY, direction);
+        e2.entityCollision(this, newX, newY);
         e2 = e2 instanceof StaticEntity ? ((StaticEntity) e2) : e2;
 
         if(((StaticEntity) e2).inBackground){
