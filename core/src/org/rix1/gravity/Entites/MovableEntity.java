@@ -28,7 +28,26 @@ public class MovableEntity extends Entity {
     }
 
 
-    public Texture getTexture() {
+    public void tileCollision(int tileX, int tileY, float newX, float newY, Direction direction) {
+
+        if (direction == Direction.U) {
+//            System.out.println("Collision detected: UP");
+            dy = speed;
+        } else if (direction == Direction.D) {
+//            System.out.println("Collision detected: DOWN");
+            dy = -speed;
+        } else if (direction == Direction.L) {
+//            System.out.println("Collision detected: LEFT");
+            dx = -speed;
+        } else if (direction == Direction.R) {
+//            System.out.println("Collision detected: RIGHT");
+            dx = speed;
+        }
+    }
+
+
+
+        public Texture getTexture() {
         return texture;
     }
 

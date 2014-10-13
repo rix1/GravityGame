@@ -8,6 +8,7 @@ import org.rix1.gravity.Animations.AnimationGraph;
 import org.rix1.gravity.Animations.WalkAnimation;
 import org.rix1.gravity.Drawable;
 import org.rix1.gravity.GameClass;
+import org.rix1.gravity.GameMap;
 import org.rix1.gravity.Utils.Direction;
 import org.rix1.gravity.Utils.PlayerInfo;
 
@@ -18,14 +19,51 @@ public class Player extends MovableEntity implements Drawable {
 
     private Animation walkForwardAnimation;
     private Animation walkBackwardAnimation;
+
+    @Deprecated
     private boolean hasPowerUp;
+
+    private float spriteWidth;
+    private float spriteHeight;
+
+    private boolean playerBig;
+
 
     public Player(GameClass game, float x, float y, int width, int height, float speed) {
         super(game, x, y, width, height, speed);
         walkForwardAnimation = new WalkAnimation(4, 17, "playerWalk.txt", false);
         walkBackwardAnimation = new WalkAnimation(4, 17, "playerWalk.txt", true);
+        texture = GameMap.TEX_POWERUP;
         hasPowerUp = false;
+        spriteWidth = 30f;
+        spriteHeight = 50f;
+        playerBig = false;
     }
+
+    public boolean isPlayerBig() {
+        return playerBig;
+    }
+
+    public void adjustSize(){
+        if(playerBig){
+            spriteWidth = 30f;
+            spriteHeight = 50f;
+        }else{
+            spriteWidth = 60f;
+            spriteHeight = 100f;
+        }
+        playerBig = !playerBig;
+    }
+
+    public float getSpriteWidth() {
+        return spriteWidth;
+    }
+
+    public float getSpriteHeight() {
+        return spriteHeight;
+    }
+
+
 
     public void setPosition(float x, float y){
         this.x = x;
@@ -44,11 +82,12 @@ public class Player extends MovableEntity implements Drawable {
         this.y = info.getY();
     }
 
-
+    @Deprecated
     public boolean hasPowerUp() {
         return hasPowerUp;
     }
 
+    @Deprecated
     public void setHasPowerUp(boolean hasPowerUp) {
         this.hasPowerUp = hasPowerUp;
     }
@@ -87,6 +126,7 @@ public class Player extends MovableEntity implements Drawable {
             dx = speed * delta;
             currentDir = Direction.R;
         }
+
         setMoving();
         if(isMoving)
             queueAnimation();
@@ -104,6 +144,11 @@ public class Player extends MovableEntity implements Drawable {
 
         if(((StaticEntity) e2).inBackground){
             move(newX, newY);
+            if(e2 instanceof PowerUp) {
+                game.getStaticEntities().remove(e2);
+                if(!isPlayerBig())
+                    adjustSize();
+            }
         }else {
             System.out.println("\"Hey Jack! We just hit a wall or something\"");
         }

@@ -24,17 +24,8 @@ public class Node implements Comparable<Node> {
         return currentPos;
     }
 
-    /**
-     * This should only be called when initializing the tree(?)
-     * @param playerPos
-     * @param startPos
-     */
-
-
-
-    public Node(Tile playerPos, Tile startPos){
-        this.playerPos = playerPos;
-        this.startPos = startPos;
+    public Node(Tile startPos, Tile goalPosition){
+        this.playerPos = goalPosition;
         this.currentPos = startPos;
         g = 0;
         h = distanceToGoal(startPos);
@@ -49,26 +40,21 @@ public class Node implements Comparable<Node> {
      * @param currentPos
      */
 
-    public Node(Node parent, Tile currentPos){
+    public Node(Node parent, Tile currentPos, int weight){
         this.parent = parent;
         this.currentPos = currentPos;
-        this.g = parent.getDistanceFromStart()+1;
+        this.g = parent.getDistanceFromStart()+weight;
         this.h = distanceToGoal(currentPos);
         updateF();
         children = new ArrayList<Node>();
         parent.addKid(this);
     }
 
-    public boolean solutionFound(){
-        return h==0;
-    }
+    public boolean update(Tile newPosition, Node newParent, int weight){
+        int tempF = (newParent.getDistanceFromStart() + weight) + distanceToGoal(newPosition);
 
-    public void addKid(Node kid){
-        children.add(kid);
-    }
+        System.out.println("comparing " + tempF + " to existing: " + f);
 
-    public boolean update(Tile newPosition, Node newParent){
-        int tempF = (newParent.getDistanceFromStart() +1) + distanceToGoal(newPosition);
         if(tempF < f){
             this.parent = newParent;
             this.currentPos = newPosition;
@@ -80,6 +66,20 @@ public class Node implements Comparable<Node> {
         }
         return false;
     }
+
+    public Node getParent() {
+        return parent;
+    }
+
+    public boolean solutionFound(){
+        return h==0;
+    }
+
+    public void addKid(Node kid){
+        children.add(kid);
+    }
+
+
 
     public void setStatus(boolean status){
         this.status = status;
@@ -102,7 +102,7 @@ public class Node implements Comparable<Node> {
     }
 
     public int distanceToGoal(Tile position){
-        int dist = (Math.abs(playerPos.getX()-position.getX()) + Math.abs(playerPos.getY()-position.getY()));
+        int dist = (Math.abs(playerPos.getIntX()-position.getIntX()) + Math.abs(playerPos.getIntY()-position.getIntY()));
 
         return dist;
     }

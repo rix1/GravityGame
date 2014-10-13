@@ -39,6 +39,7 @@ public class StaticEntity extends Entity {
                 ((Player)e2).incrementScore();
                 ((Player)e2).setHasPowerUp(true);
             }
+//            game.getLogicalMap()[getTile().getIntY()][getTile().getIntX()] = GameMap.EMPTY;
             isVisible = false;
             //TODO: Add some points or something to player;
         }

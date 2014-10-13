@@ -7,32 +7,32 @@ package org.rix1.gravity.Utils;
 
 public class Tile implements Comparable<Tile>{
 
-    private int x;
-    private int y;
+    private int intX;
+    private int intY;
 
     public Tile(float x, float y) {
-        this.x = (int) x/Utils.tileSize;
-        this.y = (int) y/Utils.tileSize;
+        this.intX = (int) x /Utils.tileSize;
+        this.intY = (int) y /Utils.tileSize;
     }
 
-    public Tile(int x , int y){
-        this.x = x;
-        this.y = y;
+    public Tile(int intX, int intY){
+        this.intX = intX;
+        this.intY = intY;
     }
 
-    public int getX() {
-        return x;
+    public int getIntX() {
+        return intX;
     }
 
-    public int getY() {
-        return y;
+    public int getIntY() {
+        return intY;
     }
 
     @Override
     public String toString() {
         return "Tile{" +
-                "x=" + x +
-                ", y=" + y +
+                "intX=" + intX +
+                ", intY=" + intY +
                 '}';
     }
 
@@ -44,8 +44,8 @@ public class Tile implements Comparable<Tile>{
 
     @Override
     public int compareTo(Tile otherPos) {
-        int x = (getX() - otherPos.getX()); // Negative, zero or positive
-        int y = (getY() - otherPos.getY()); // Negative, zero or positive
+        int x = (getIntX() - otherPos.getIntX()); // Negative, zero or positive
+        int y = (getIntY() - otherPos.getIntY()); // Negative, zero or positive
 
         if((x == 0) && (y == 0))
             return 0;

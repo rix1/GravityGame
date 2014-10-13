@@ -9,6 +9,11 @@ import com.badlogic.gdx.graphics.Texture;
 
 public class GameMap {
 
+
+    public static final int WEIGHT_LIGHT = 1;
+    public static final int WEIGHT_DEFAULT = 2;
+    public static final int WEIGHT_HEAVY = 20;
+
     public static final int EMPTY = 0;
     public static final int WALL = 1;
     public static final int PLAYER = 2;
@@ -17,8 +22,6 @@ public class GameMap {
 
     public static final int OPEN = 5;
     public static final int CLOSED = 6;
-
-
 
     public static final Texture TEX_STARTGOAL = new Texture("startend.png");
     public static final Texture TEX_WALL = new Texture("block.png");

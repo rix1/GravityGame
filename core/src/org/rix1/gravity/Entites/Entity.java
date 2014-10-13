@@ -41,17 +41,18 @@ public abstract class Entity {
 	}
 
 	public void tileCollision(int tileX, int tileY, float newX, float newY, Direction direction) {
-//        System.out.println("tile collision at: " + tileX + " " + tileY);
+        System.out.println("tile collision at: " + tileX + " " + tileY + " direction " + direction.toString());
 
         if (direction == Direction.U) {
-            y = tileY * game.getTileSize() + game.getTileSize();
+//            y = tileY * game.getTileSize() + game.getTileSize();
         } else if (direction == Direction.D) {
-            y = tileY * game.getTileSize() - height;
+//            y = tileY * game.getTileSize() - height;
         } else if (direction == Direction.L) {
-            x = tileX * game.getTileSize() + game.getTileSize();
+//            x = tileX * game.getTileSize() + game.getTileSize();
         } else if (direction == Direction.R) {
-            x = tileX * game.getTileSize() - width;
+//            x = tileX * game.getTileSize() - width;
         }
+
     }
 	public abstract void entityCollision(Entity e2, float newX, float newY);
 

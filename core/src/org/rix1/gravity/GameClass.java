@@ -1,12 +1,13 @@
 package org.rix1.gravity;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import org.rix1.gravity.Entites.*;
@@ -26,9 +27,10 @@ public class GameClass extends ApplicationAdapter {
     GameMap map;
     Player player;
     private HUD headsUpDisplay;
+    boolean isSpacePressed = false;
 
     private boolean restart = false;
-    private boolean DEBUG_MODE = true; // THIS TURNS ON EXTRA DEV STUFF AND CUTS THE MUSIC
+    private boolean DEBUG_MODE = false; // THIS TURNS ON EXTRA DEV STUFF AND CUTS THE MUSIC
 
     private int threshold = 4;
 
@@ -84,12 +86,20 @@ public class GameClass extends ApplicationAdapter {
 
         movableEntities.add(player);
 
-        movableEntities.add(new EnemyEntity(this, 100, 200, tileSize, tileSize, 50f));
+        movableEntities.add(new EnemyEntity(this, 20, 110, tileSize, tileSize, 90f));
 
-        // Static staticEntities
-        staticEntities.add(new StaticEntity(this, 50, 150, tileSize, tileSize));
-        staticEntities.add(new StaticEntity(this, 200, 200, tileSize, tileSize));
-        staticEntities.add(new PowerUp(this, 180, 50, tileSize, tileSize));
+        // Add some walls:
+        for (int i = 4; i < 12; i++) {
+            getLogicalMap()[7][i] = 1;
+        }
+        getLogicalMap()[6][4] = 1;
+        getLogicalMap()[5][4] = 1;
+        getLogicalMap()[4][4] = 1;
+        getLogicalMap()[3][4] = 1;
+        getLogicalMap()[3][5] = 1;
+        getLogicalMap()[3][6] = 1;
+
+        placePowerUp();
 
         // Goal
         staticEntities.add(new Goal(this, map.getEnd()[0]*tileSize, map.getEnd()[1]*tileSize, tileSize, tileSize));
@@ -126,7 +136,9 @@ public class GameClass extends ApplicationAdapter {
         gameCount++;
         player.incrementScore();
         restart = true;
-        player.setHasPowerUp(false);
+        if(player.isPlayerBig()){
+            player.adjustSize();
+        }
         resetMap();
 //        headsUpDisplay.announceNewGame(Integer.toString(gameCount));
     }
@@ -135,28 +147,23 @@ public class GameClass extends ApplicationAdapter {
         for (StaticEntity e:staticEntities){
             e.setVisible();
         }
+        placePowerUp();
     }
 
-    public void moveEntity(Entity e, float newX, float newY) {
+    public void placePowerUp(){
+        Random r = new Random();
+        staticEntities.add(new PowerUp(this, 1+r.nextInt((mapWidth-1)*tileSize), 1+r.nextInt((mapHeight-1)*tileSize), tileSize, tileSize));
+    }
+
+    public void moveEntity(MovableEntity e, float newX, float newY) {
         // just check x collisions keep y the same
         moveEntityInAxis(e, Axis.X, newX, e.getY());
         // just check y collisions keep x the same
         moveEntityInAxis(e, Axis.Y, e.getX(), newY);
     }
 
-    public void moveEntityInAxis(Entity e, Axis axis, float newX, float newY) {
-        Direction direction;
-
-        // determine axis direction
-        if(axis == Axis.Y) {
-            if(newY - e.getY() < 0) direction = Direction.U;
-            else direction = Direction.D;
-        }
-        else {
-            if(newX - e.getX() < 0) direction = Direction.L;
-            else direction = Direction.R;
-        }
-        if(!tileCollision(e, direction, newX, newY) && !entityCollision(e, direction, newX, newY)) {
+    public void moveEntityInAxis(MovableEntity e, Axis axis, float newX, float newY) {
+        if(!tileCollision(e, e.getCurrentDir(), newX, newY) && !entityCollision(e, e.getCurrentDir(), newX, newY)) {
             // full move with no collision
             e.move(newX, newY);
         }
@@ -209,10 +216,14 @@ public class GameClass extends ApplicationAdapter {
     public void render () {
 
         delta = Gdx.graphics.getDeltaTime();
+        if(!Gdx.input.isKeyPressed(Input.Keys.SPACE) && tick%30 == 0){
+            isSpacePressed = false;
+        }
+
 
         if(!restart){
-            // Only update movable staticEntities
-            for (Entity e : movableEntities){
+            // Only update movable entities
+            for (MovableEntity e : movableEntities){
                 e = e instanceof Player ? ((Player) e) : ((EnemyEntity) e);
                 e.update(delta);
                 moveEntity(e, e.getX() + e.getDx(), e.getY() + e.getDy());
@@ -220,6 +231,12 @@ public class GameClass extends ApplicationAdapter {
         }else{
             player.setPosition(map.getStart()[0]*tileSize, map.getStart()[1]*tileSize);
             restart = false;
+        }
+
+        if(Gdx.input.isKeyPressed(Input.Keys.SPACE) && !isSpacePressed){
+            EnemyEntity.astarRun = true;
+            removeAstar();
+            isSpacePressed = true;
         }
 
 
@@ -245,8 +262,15 @@ public class GameClass extends ApplicationAdapter {
             if(me instanceof Player){
                 drawPlayer();
             }else{
-//                System.out.println("DRAW PLAYER");
+                if(tick % 60 == 0) {
+                    EnemyEntity.astarRun = true;
+                    removeAstar();
+                }
                 batch.draw(me.getTexture(), me.getX(), me.getY());
+//                System.out.println("ENEMYPOS: " + me.getX() + "," + me.getY());
+//                System.out.println("PLAYERPOS: " + player.getX() + "," +  player.getY());
+//                System.out.println("ENEMYTILE: " + me.getTile().getIntX() + "," +  me.getTile().getIntY());
+
             }
         }
     }
@@ -259,13 +283,18 @@ public class GameClass extends ApplicationAdapter {
     }
 
     public void drawPlayer(){
-        Sprite playerSprite;
-        if(tick%threshold == 0) {
-            playerSprite = player.getNextSprite();
+
+        if(DEBUG_MODE){
+            batch.draw(player.getTexture(), player.getX(), player.getY());
+        }else {
+
+            Sprite playerSprite;
+            if (tick % threshold == 0) {
+                playerSprite = player.getNextSprite();
+            } else playerSprite = player.getCurrentSprite();
+            playerSprite.setBounds(player.getX(), player.getY(), player.getSpriteWidth(), player.getSpriteHeight());
+            playerSprite.draw(batch);
         }
-        else playerSprite = player.getCurrentSprite();
-        playerSprite.setBounds(player.getX(),player.getY(),60f,100f);
-        playerSprite.draw(batch);
     }
 
 
@@ -276,6 +305,16 @@ public class GameClass extends ApplicationAdapter {
             music.setVolume(0.4f);
             }
         */
+
+    public void removeAstar(){
+        for (int y = 0; y < mapHeight; y++) {
+            for (int x = 0; x < mapWidth; x++) {
+                if(getLogicalMap()[y][x] == GameMap.OPEN || getLogicalMap()[y][x] == GameMap.CLOSED ){
+                    getLogicalMap()[y][x] = GameMap.EMPTY;
+                }
+            }
+        }
+    }
 
     public void drawMap(){
         for (int y = 0; y < mapHeight; y++) {
