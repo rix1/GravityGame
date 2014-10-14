@@ -11,6 +11,7 @@ import org.rix1.gravity.GameClass;
 import org.rix1.gravity.GameMap;
 import org.rix1.gravity.Utils.Direction;
 import org.rix1.gravity.Utils.PlayerInfo;
+import org.rix1.gravity.Utils.Utils;
 
 public class Player extends MovableEntity implements Drawable {
 
@@ -19,6 +20,7 @@ public class Player extends MovableEntity implements Drawable {
 
     private Animation walkForwardAnimation;
     private Animation walkBackwardAnimation;
+    private boolean isUpPressed = false;
 
     @Deprecated
     private boolean hasPowerUp;
@@ -109,11 +111,24 @@ public class Player extends MovableEntity implements Drawable {
         dx = 0;
         dy = 0;
 
+
+        if(!Gdx.input.isKeyPressed(Input.Keys.UP)){
+            isUpPressed = false;
+        }
+
+
         // move
         if(Gdx.input.isKeyPressed(Input.Keys.UP)) {
             dy = speed * delta;
             currentDir = Direction.U;
+            isUpPressed = true;
         }
+
+        if(this.getY() > Utils.tileSize && !isUpPressed) {
+            dy = -speed * delta;
+            currentDir = Direction.D;
+        }
+
         if(Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
             dy = -speed * delta;
             currentDir = Direction.D;
@@ -162,8 +177,10 @@ public class Player extends MovableEntity implements Drawable {
 
         switch (currentDir){
             case U:
+                System.out.println("moving up or down!");
                 break;
             case D:
+                System.out.println("moving up or down!");
                 break;
             case L:
                 aniGraph.add(walkBackwardAnimation);

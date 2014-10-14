@@ -36,7 +36,7 @@ public class EnemyEntity extends MovableEntity{
         dy = 0;
 
         if(astarRun) {
-            System.out.println("Running astar");
+//            System.out.println("Running astar");
             aStar = new AstarLogic(this, player);
             directions.clear();
             directions = aStar.getBackTrack();
@@ -46,7 +46,6 @@ public class EnemyEntity extends MovableEntity{
 
 
         if(player.isPlayerBig()){
-            System.out.println("ISbig " + player.isPlayerBig());
             // move
             if (player.getY() < this.y) {
                 dy = speed * delta;

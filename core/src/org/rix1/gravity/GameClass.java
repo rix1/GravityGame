@@ -63,6 +63,10 @@ public class GameClass extends ApplicationAdapter {
         return movableEntities;
     }
 
+    public long getTick() {
+        return tick;
+    }
+
     @Override
     public void dispose(){
         Utils.saveGame(player);
