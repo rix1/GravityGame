@@ -17,7 +17,7 @@ public class StaticEntity extends Entity {
 
     public StaticEntity(GameClass game, float x, float y, int width, int height) {
         super(game, x, y, width, height);
-        this.texture = GameMap.TEX_WALL;
+        this.texture = GameMap.TEX_WALL_DOWN;
         inBackground = false;
 
     }

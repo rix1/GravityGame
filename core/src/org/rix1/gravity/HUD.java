@@ -38,12 +38,11 @@ public class HUD {
     }
 
     public void drawLabels(String score){
-        font.draw(game.batch, " SCORE: " + score, 350,300);
+        font.draw(game.batch, " SCORE: " + score, 20,370);
     }
 
     public void announceNewGame(String gameCount){
-        font.draw(game.batch, "YAY, U FOUND EXIT", 350,250);
-        font.draw(game.batch, "THIS IS GAME NO. " + gameCount, 350,200);
+        font.draw(game.batch, "YAY, U FOUND EXIT, THIS IS GAME NO. " + gameCount, 250,370);
     }
 
 }

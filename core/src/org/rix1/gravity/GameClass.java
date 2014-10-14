@@ -20,7 +20,7 @@ public class GameClass extends ApplicationAdapter {
     SpriteBatch batch;
     int screenWidth;
     int screenHeight;
-    int mapWidth = 15;
+    int mapWidth = 45;
     int mapHeight = 15;
     int tileSize = Utils.tileSize;
     int gameCount = 0;
@@ -94,14 +94,14 @@ public class GameClass extends ApplicationAdapter {
 
         // Add some walls:
         for (int i = 4; i < 12; i++) {
-            getLogicalMap()[7][i] = 1;
+            getLogicalMap()[7][i] = 8;
         }
-        getLogicalMap()[6][4] = 1;
-        getLogicalMap()[5][4] = 1;
-        getLogicalMap()[4][4] = 1;
-        getLogicalMap()[3][4] = 1;
-        getLogicalMap()[3][5] = 1;
-        getLogicalMap()[3][6] = 1;
+        getLogicalMap()[6][4] = 8;
+        getLogicalMap()[5][4] = 8;
+        getLogicalMap()[4][4] = 8;
+        getLogicalMap()[3][4] = 8;
+        getLogicalMap()[3][5] = 8;
+        getLogicalMap()[3][6] = 8;
 
         placePowerUp();
 
@@ -187,7 +187,7 @@ public class GameClass extends ApplicationAdapter {
         // tile checks
         for(int y = y1; y <= y2; y++) {
             for(int x = x1; x <= x2; x++) {
-                if(map.getMap()[y][x] == GameMap.WALL) {
+                if(map.isWall(x, y)) {
                     collision = true;
                     e.tileCollision(x, y, newX, newY, direction);
                 }
@@ -282,7 +282,15 @@ public class GameClass extends ApplicationAdapter {
     public void drawStaticEntities(){
         for (StaticEntity e:staticEntities){
             if(e.isVisible())
-                batch.draw(e.getTexture(), e.getX(), e.getY());
+                if(e instanceof Goal){
+                    Sprite sprite = new Sprite(e.getTexture());
+                    sprite.setBounds(e.getX()-70, e.getY(), 100,100);
+                    sprite.draw(batch);
+//                    batch.draw(e.getTexture(), e.getX()-40, e.getY());
+                }
+                else {
+                    batch.draw(e.getTexture(), e.getX(), e.getY());
+                }
         }
     }
 
@@ -321,10 +329,16 @@ public class GameClass extends ApplicationAdapter {
     }
 
     public void drawMap(){
+        batch.draw(GameMap.TEX_BG, 0,0);
         for (int y = 0; y < mapHeight; y++) {
             for (int x = 0; x < mapWidth; x++) {
-                if(map.getMap()[y][x] == GameMap.WALL){
-                    batch.draw(GameMap.TEX_WALL, x * tileSize, y * tileSize);
+                if(map.isWall(x, y)){
+                    if(getLogicalMap()[y][x] == GameMap.WALL_DEFAULT)
+                        batch.draw(GameMap.TEX_WALL_DEFAULT, x * tileSize, y * tileSize);
+                    if(getLogicalMap()[y][x] == GameMap.WALL_SIDE)
+                        batch.draw(GameMap.TEX_WALL_SIDE, x * tileSize, y * tileSize);
+                    if(getLogicalMap()[y][x] == GameMap.WALL_DOWN)
+                        batch.draw(GameMap.TEX_WALL_DOWN, x * tileSize, y * tileSize);
                 }
                 if(map.getMap()[y][x] == GameMap.OPEN){
                     batch.draw(GameMap.TEX_DEFAULT, x * tileSize, y * tileSize);

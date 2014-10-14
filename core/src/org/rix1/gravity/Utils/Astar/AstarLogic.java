@@ -24,7 +24,7 @@ public class AstarLogic {
     private Stack<Node> backTrackStack = new Stack<Node>();
     private Node currentNode;
     private boolean solutionFound = false;
-    private int[][] tempMap;
+    private GameMap tempMap;
     private boolean cornerNearBy;
     private GameClass game;
     private EnemyEntity enemy;
@@ -97,26 +97,26 @@ public class AstarLogic {
     }
 
     public boolean cornerSearch(int x, int y){
-        tempMap = game.getLogicalMap();
+        tempMap = game.getMap();
         cornerNearBy = false;
 
         // Test for corner SOUTH-WEST
-        if(tempMap[y-1][x-1] == GameMap.WALL && tempMap[y-1][x] != GameMap.WALL && tempMap[y][x-1] != GameMap.WALL){
+        if(tempMap.isWall(x-1,y-1) && !tempMap.isWall(x,y-1) && !tempMap.isWall(x-1,y)){
             cornerNearBy = true;
 //            System.out.println("FOUND CORNER SOUTH-WEST: " + y + "," + x);
         }
         // Test for corner SOUTH-EAST
-        if(tempMap[y-1][x+1] == GameMap.WALL && tempMap[y-1][x] != GameMap.WALL && tempMap[y][x+1] != GameMap.WALL){
+        if(tempMap.isWall(x+1,y-1) && !tempMap.isWall(x,y-1) && !tempMap.isWall(x+1,y)){
             cornerNearBy = true;
 //            System.out.println("FOUND CORNER SOUTH-EAST: " + y + "," + x);
         }
         // Test for corner NORTH-WEST
-        if(tempMap[y+1][x-1] == GameMap.WALL && tempMap[y+1][x] != GameMap.WALL && tempMap[y][x-1] != GameMap.WALL){
+        if(tempMap.isWall(x-1,y+1) && !tempMap.isWall(x,y+1) && !tempMap.isWall(x-1,y)){
             cornerNearBy = true;
 //            System.out.println("FOUND CORNER NORTH-WEST: " + y + "," + x);
         }
         // Test for corner NORTH-EAST
-        if(tempMap[y+1][x+1] == GameMap.WALL && tempMap[y+1][x] != GameMap.WALL && tempMap[y][x+1] != GameMap.WALL){
+        if(tempMap.isWall(x+1,y+1) && !tempMap.isWall(x,y+1) && !tempMap.isWall(x+1,y)){
             cornerNearBy = true;
 //            System.out.println("FOUND CORNER NORTH-EAST: " + y + "," + x);
         }
