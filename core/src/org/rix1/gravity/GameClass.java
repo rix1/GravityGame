@@ -97,12 +97,9 @@ public class GameClass extends ApplicationAdapter {
         for (int i = 4; i < 12; i++) {
             getLogicalMap()[7][i] = GameMap.WALL_SIDE;
         }
-        getLogicalMap()[6][4] = GameMap.WALL_SIDE;
-        getLogicalMap()[5][4] = GameMap.WALL_SIDE;
-        getLogicalMap()[4][4] = GameMap.WALL_SIDE;
-        getLogicalMap()[3][4] = GameMap.WALL_SIDE;
-        getLogicalMap()[3][5] = GameMap.WALL_SIDE;
-        getLogicalMap()[3][6] = GameMap.WALL_SIDE;
+        getLogicalMap()[6][12] = GameMap.WALL_SIDE;
+        getLogicalMap()[7][12] = GameMap.WALL_SIDE;
+        getLogicalMap()[5][12] = GameMap.WALL_SIDE;
 
         placePowerUp();
 

@@ -30,3 +30,8 @@ The game offers the following features:
 ### AI
 
 Your friend, SpaceShip finder uses A* to follow your every move. When a part is picked up, the bot will find the way back to your space ship. 
+
+
+### Known Bugs
+
+The collision detection is kinda borked, and causes the AI to stop up whenever it collides with something. You have to help out it by moving around in some cases.
