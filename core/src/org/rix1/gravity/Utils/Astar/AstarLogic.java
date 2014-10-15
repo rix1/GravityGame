@@ -2,6 +2,7 @@ package org.rix1.gravity.Utils.Astar;
 
 import com.badlogic.gdx.utils.Array;
 import org.rix1.gravity.Entites.EnemyEntity;
+import org.rix1.gravity.Entites.Entity;
 import org.rix1.gravity.Entites.Player;
 import org.rix1.gravity.GameClass;
 import org.rix1.gravity.GameMap;
@@ -31,7 +32,7 @@ public class AstarLogic {
     private boolean cornerFound;
     private ArrayList<Node> tempArray;
 
-    public AstarLogic(EnemyEntity enemyEntity, Player goal){
+    public AstarLogic(EnemyEntity enemyEntity, Entity goal){
         this.enemy = enemyEntity;
         game = goal.getGame();
         initialNode = new Node(enemyEntity.getTile(), goal.getTile());

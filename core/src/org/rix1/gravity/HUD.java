@@ -42,7 +42,8 @@ public class HUD {
     }
 
     public void announceNewGame(String gameCount){
-        font.draw(game.batch, "YAY, U FOUND EXIT, THIS IS GAME NO. " + gameCount, 250,370);
+
+//        font.draw(game.batch, "YAY, U FOUND EXIT, THIS IS GAME NO. " + gameCount, 250,370);
     }
 
 }

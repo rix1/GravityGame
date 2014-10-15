@@ -28,6 +28,7 @@ public class GameClass extends ApplicationAdapter {
     Player player;
     private HUD headsUpDisplay;
     boolean isSpacePressed = false;
+    Goal goal;
 
     private boolean restart = false;
     private boolean DEBUG_MODE = false; // THIS TURNS ON EXTRA DEV STUFF AND CUTS THE MUSIC
@@ -82,7 +83,7 @@ public class GameClass extends ApplicationAdapter {
         map = new GameMap(mapHeight, mapWidth);
 
         // add some staticEntities including a player
-        player = new Player(this, map.getStart()[0] * tileSize, map.getStart()[1] * tileSize, 20, 20, 120.0f);
+        player = new Player(this, map.getStart()[0] * tileSize, map.getStart()[1] * tileSize, 30, 50, 120.0f);
 
         PlayerInfo p = Utils.loadGame();
         if(p != null)
@@ -90,23 +91,24 @@ public class GameClass extends ApplicationAdapter {
 
         movableEntities.add(player);
 
-        movableEntities.add(new EnemyEntity(this, 20, 110, tileSize, tileSize, 90f));
+        movableEntities.add(new EnemyEntity(this, 20, 110, 50, 50, 90f));
 
         // Add some walls:
         for (int i = 4; i < 12; i++) {
-            getLogicalMap()[7][i] = 8;
+            getLogicalMap()[7][i] = GameMap.WALL_SIDE;
         }
-        getLogicalMap()[6][4] = 8;
-        getLogicalMap()[5][4] = 8;
-        getLogicalMap()[4][4] = 8;
-        getLogicalMap()[3][4] = 8;
-        getLogicalMap()[3][5] = 8;
-        getLogicalMap()[3][6] = 8;
+        getLogicalMap()[6][4] = GameMap.WALL_SIDE;
+        getLogicalMap()[5][4] = GameMap.WALL_SIDE;
+        getLogicalMap()[4][4] = GameMap.WALL_SIDE;
+        getLogicalMap()[3][4] = GameMap.WALL_SIDE;
+        getLogicalMap()[3][5] = GameMap.WALL_SIDE;
+        getLogicalMap()[3][6] = GameMap.WALL_SIDE;
 
         placePowerUp();
 
         // Goal
-        staticEntities.add(new Goal(this, map.getEnd()[0]*tileSize, map.getEnd()[1]*tileSize, tileSize, tileSize));
+        goal = new Goal(this, map.getEnd()[0]*tileSize, map.getEnd()[1]*tileSize, 100, 100);
+        staticEntities.add(goal);
 
         // HUD
         headsUpDisplay = new HUD(this);
@@ -115,6 +117,10 @@ public class GameClass extends ApplicationAdapter {
         if(!DEBUG_MODE) {
             startMusic();
         }
+    }
+
+    public Goal getGoal() {
+        return goal;
     }
 
     public Player getPlayer(){
@@ -139,10 +145,13 @@ public class GameClass extends ApplicationAdapter {
     public void restart(){
         gameCount++;
         player.incrementScore();
+        player.incrementSpeed();
         restart = true;
         if(player.isPlayerBig()){
             player.adjustSize();
         }
+
+
         resetMap();
 //        headsUpDisplay.announceNewGame(Integer.toString(gameCount));
     }
@@ -330,15 +339,23 @@ public class GameClass extends ApplicationAdapter {
 
     public void drawMap(){
         batch.draw(GameMap.TEX_BG, 0,0);
+
+//        System.out.println(map.mapToString());
+
         for (int y = 0; y < mapHeight; y++) {
             for (int x = 0; x < mapWidth; x++) {
                 if(map.isWall(x, y)){
-                    if(getLogicalMap()[y][x] == GameMap.WALL_DEFAULT)
-                        batch.draw(GameMap.TEX_WALL_DEFAULT, x * tileSize, y * tileSize);
-                    if(getLogicalMap()[y][x] == GameMap.WALL_SIDE)
-                        batch.draw(GameMap.TEX_WALL_SIDE, x * tileSize, y * tileSize);
-                    if(getLogicalMap()[y][x] == GameMap.WALL_DOWN)
-                        batch.draw(GameMap.TEX_WALL_DOWN, x * tileSize, y * tileSize);
+                    switch (getLogicalMap()[y][x]){
+                        case GameMap.WALL_DEFAULT:
+                            batch.draw(GameMap.TEX_WALL_DEFAULT, x * tileSize, y * tileSize);
+                            break;
+                        case GameMap.WALL_SIDE:
+                            batch.draw(GameMap.TEX_WALL_SIDE, x * tileSize, y * tileSize);
+                            break;
+                        case GameMap.WALL_DOWN:
+                            batch.draw(GameMap.TEX_WALL_DOWN, x * tileSize, y * tileSize);
+                            break;
+                    }
                 }
                 if(map.getMap()[y][x] == GameMap.OPEN){
                     batch.draw(GameMap.TEX_DEFAULT, x * tileSize, y * tileSize);

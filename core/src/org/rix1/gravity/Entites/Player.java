@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import org.rix1.gravity.Animations.Animation;
 import org.rix1.gravity.Animations.AnimationGraph;
+import org.rix1.gravity.Animations.IdleAnimation;
 import org.rix1.gravity.Animations.WalkAnimation;
 import org.rix1.gravity.Drawable;
 import org.rix1.gravity.GameClass;
@@ -20,6 +21,7 @@ public class Player extends MovableEntity implements Drawable {
 
     private Animation walkForwardAnimation;
     private Animation walkBackwardAnimation;
+    private Animation flyAnimation;
     private boolean isUpPressed = false;
 
     @Deprecated
@@ -30,15 +32,19 @@ public class Player extends MovableEntity implements Drawable {
 
     private boolean playerBig;
 
+    public static final float SIZE_SMALL_WIDTH = 30f;
+    public static final float SIZE_SMALL_HEIGHT = 50f;
+
 
     public Player(GameClass game, float x, float y, int width, int height, float speed) {
         super(game, x, y, width, height, speed);
         walkForwardAnimation = new WalkAnimation(4, 17, "playerWalk.txt", false);
         walkBackwardAnimation = new WalkAnimation(4, 17, "playerWalk.txt", true);
+        flyAnimation = new WalkAnimation(1, 12, "flyy.txt", false);
         texture = GameMap.TEX_POWERUP;
         hasPowerUp = false;
-        spriteWidth = 30f;
-        spriteHeight = 50f;
+        spriteWidth = SIZE_SMALL_WIDTH;
+        spriteHeight = SIZE_SMALL_HEIGHT;
         playerBig = false;
     }
 
@@ -105,6 +111,10 @@ public class Player extends MovableEntity implements Drawable {
 
     public int getScore() {
         return score;
+    }
+
+    public void incrementSpeed(){
+        speed+=5;
     }
 
     public void update(float delta){
@@ -177,16 +187,26 @@ public class Player extends MovableEntity implements Drawable {
 
         switch (currentDir){
             case U:
-                System.out.println("moving up or down!");
+                aniGraph.add(flyAnimation);
+//                System.out.println("moving up or down!");
                 break;
             case D:
-                System.out.println("moving up or down!");
+//                if(y > 2*game.getTileSize()) {
+//                    aniGraph.add(flyAnimation);
+//                    System.out.println("MOVING down!");
+//                }
                 break;
             case L:
-                aniGraph.add(walkBackwardAnimation);
+                if(y > 2*game.getTileSize()) {
+                    aniGraph.add(flyAnimation);
+                }
+                else aniGraph.add(walkBackwardAnimation);
                 break;
             case R:
-                aniGraph.add(walkForwardAnimation);
+                if(y > 2*game.getTileSize()) {
+                    aniGraph.add(flyAnimation);
+                }
+                else aniGraph.add(walkForwardAnimation);
                 break;
         }
     }

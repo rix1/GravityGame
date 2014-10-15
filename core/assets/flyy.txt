@@ -1,0 +1,95 @@
+flyanimation.png
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Gravity-03
+  rotate: true
+  xy: 2, 1114
+  size: 397, 529
+  orig: 397, 529
+  offset: 0, 0
+  index: -1
+Gravity-04
+  rotate: true
+  xy: 1054, 1060
+  size: 473, 496
+  orig: 479, 496
+  offset: 6, 0
+  index: -1
+Gravity-05
+  rotate: false
+  xy: 400, 2
+  size: 366, 554
+  orig: 366, 554
+  offset: 0, 0
+  index: -1
+Gravity-06
+  rotate: false
+  xy: 769, 531
+  size: 382, 527
+  orig: 384, 527
+  offset: 2, 0
+  index: -1
+Gravity-07
+  rotate: true
+  xy: 533, 1114
+  size: 386, 519
+  orig: 393, 519
+  offset: 7, 0
+  index: -1
+Gravity-08
+  rotate: false
+  xy: 2, 558
+  size: 393, 554
+  orig: 395, 554
+  offset: 2, 0
+  index: -1
+Gravity-09
+  rotate: false
+  xy: 1552, 2
+  size: 437, 520
+  orig: 444, 520
+  offset: 7, 0
+  index: -1
+Gravity-10
+  rotate: false
+  xy: 1153, 524
+  size: 435, 522
+  orig: 438, 522
+  offset: 3, 0
+  index: -1
+Gravity-11
+  rotate: false
+  xy: 397, 558
+  size: 370, 554
+  orig: 381, 554
+  offset: 11, 0
+  index: -1
+Gravity-12
+  rotate: false
+  xy: 768, 2
+  size: 383, 527
+  orig: 388, 527
+  offset: 5, 0
+  index: -1
+Gravity-13
+  rotate: false
+  xy: 1153, 2
+  size: 382, 519
+  orig: 390, 519
+  offset: 8, 0
+  index: -1
+Gravity-14
+  rotate: false
+  xy: 2, 2
+  size: 396, 554
+  orig: 405, 554
+  offset: 9, 0
+  index: -1
+Gravity-15
+  rotate: false
+  xy: 1590, 524
+  size: 436, 520
+  orig: 444, 520
+  offset: 8, 0
+  index: -1

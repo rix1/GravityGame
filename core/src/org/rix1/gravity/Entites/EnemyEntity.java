@@ -36,48 +36,30 @@ public class EnemyEntity extends MovableEntity{
         dy = 0;
 
         if(astarRun) {
-//            System.out.println("Running astar");
-            aStar = new AstarLogic(this, player);
+            if(player.isPlayerBig()){
+                aStar = new AstarLogic(this, game.getGoal());
+
+            }else aStar = new AstarLogic(this, player);
             directions.clear();
             directions = aStar.getBackTrack();
 //            System.out.println("Player position: " + player.getTile().toString() + " stack " + directions.toString());
             astarRun = false;
         }
 
+        if(!directions.isEmpty()){
+            nextDirection = directions.peek();
 
-        if(player.isPlayerBig()){
-            // move
-            if (player.getY() < this.y) {
-                dy = speed * delta;
-                currentDir = Direction.U;
+            if(getTile().compareTo(nextDirection.getCurrentPos()) == 0){
+                directions.pop();
+                if(!directions.isEmpty()){
+                    nextDirection = directions.peek();
+                }
             }
-            if (player.getY() > this.y) {
-                dy = -speed * delta;
-                currentDir = Direction.D;
-            }
-            if (player.getX() > this.x) {
-                dx = -speed * delta;
-                currentDir = Direction.L;
-            }
-            if (player.getX() < this.x) {
-                dx = speed * delta;
-                currentDir = Direction.R;
-            }
+        }else {
+//            System.out.println("EMPTY QUEUE - SNo more directions!");
         }
 
-        else{
-            if(!directions.isEmpty()){
-                nextDirection = directions.peek();
-
-                if(getTile().compareTo(nextDirection.getCurrentPos()) == 0){
-                    directions.pop();
-                    if(!directions.isEmpty()){
-                        nextDirection = directions.peek();
-                    }
-                }
-            }else {
-                System.out.println("EMPTY QUEUE - SNo more directions!");
-            }
+        if(nextDirection!= null) {
 
             if (nextDirection.getCurrentPos().getIntY() > getTile().getIntY()) {
                 dy = speed * delta;

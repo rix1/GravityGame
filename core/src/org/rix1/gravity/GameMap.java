@@ -20,7 +20,6 @@ public class GameMap {
 
     public static final int PLAYER = 2;
     public static final int POWERUP = 3;
-    public static final int MUD = 4;
 
     public static final int OPEN = 5;
     public static final int CLOSED = 6;
@@ -34,7 +33,6 @@ public class GameMap {
     public static final Texture TEX_WALL_SIDE = new Texture("wall_leftright.png");
     public static final Texture TEX_WALL_DOWN = new Texture("wall_down.png");
     public static final Texture TEX_WALL_DEFAULT = new Texture("wall_default.png");
-
 
     public static final Texture TEX_ENEMY = new Texture("enemy.png");
     public static final Texture TEX_POWERUP = new Texture("powerup.png");
@@ -87,6 +85,18 @@ public class GameMap {
                     map[y][x] = WALL_DEFAULT;
             }
         }
+    }
+
+    public String mapToString(){
+        String printstring = "";
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                printstring += " " + map[y][x];
+
+            }
+            printstring += "\n";
+        }
+        return printstring;
     }
 
     public int[][] getMap() {
